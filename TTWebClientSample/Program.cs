@@ -28,6 +28,13 @@ namespace TTWebClientSample
 
             Console.WriteLine("--- Public Web API methods ---");
 
+            // Public trade session status
+            TTTradeSessionStatus publictradesession = client.GetPublicTradeSessionStatus().Result;
+            Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
+            Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
+            Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
+            Console.WriteLine("TickTrader session status: {0}", publictradesession.SessionStatus);
+
             // Public currency
             List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies().Result;
             foreach (var c in publicCurrencies)
@@ -124,6 +131,9 @@ namespace TTWebClientSample
             List<TTTrade> trades = client.GetAllTrades().Result;
             foreach (var t in trades)
                 Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.Symbol, t.Amount);
+
+            TTTrade trade = client.GetTrade(trades[0].Id).Result;
+            Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", trade.Id, trade.Type, trade.Symbol, trade.Amount);
 
             // Create limit order
             if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingType == TTAccountingTypes.Net))
