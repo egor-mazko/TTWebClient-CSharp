@@ -17,9 +17,12 @@ var client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiS
 
 ## Access to public Tick Trader information
 ```c#
-// Trade session status
-TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
-Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
+// Public trade session status
+TTTradeSessionStatus publictradesession = client.GetPublicTradeSessionStatus().Result;
+Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
+Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
+Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
+Console.WriteLine("TickTrader session status: {0}", publictradesession.SessionStatus);
 
 // Public currency
 List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies().Result;
