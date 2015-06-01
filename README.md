@@ -17,6 +17,10 @@ var client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiS
 
 ## Access to public Tick Trader information
 ```c#
+// Trade session status
+TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
+Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
+
 // Public currency
 List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies().Result;
 foreach (var c in publicCurrencies)
@@ -50,7 +54,7 @@ TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2
 Console.WriteLine("{0} level 2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
 ```
 
-## Access to currency, symbol, feed ticks information
+## Access to currency, symbol, feed tick information
 ```c#
 // Currencies
 List<TTCurrency> currencies = client.GetAllCurrencies().Result;
@@ -83,4 +87,79 @@ foreach (var t in ticksLevel2)
 
 TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).Result;
 Console.WriteLine("{0} level 2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
+```
+
+## Access to trade session information
+```c#
+// Trade session status
+TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
+Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
+```
+
+## Access to account information
+```c#
+// Account info
+TTAccount account = client.GetAccount().Result;
+Console.WriteLine("Account Id: {0}", account.Id);
+Console.WriteLine("Account name: {0}", account.Name);
+Console.WriteLine("Account group: {0}", account.Group);
+```
+
+## Access to account assets information. Works only for cash accounts!
+```c#
+// Account assets
+if (account.AccountingType == TTAccountingTypes.Cash)
+{
+    List<TTAsset> assets = client.GetAllAssets().Result;
+    foreach (var a in assets)
+    Console.WriteLine("{0} asset: {1}", a.Currency, a.Amount);                
+}
+```
+
+## Access to account positions information. Works only for net accounts!
+```c#
+// Account positions
+if (account.AccountingType == TTAccountingTypes.Net)
+{
+    List<TTPosition> positions = client.GetAllPositions().Result;
+    foreach (var p in positions)
+    Console.WriteLine("{0} position: {1} {2}", p.Symbol, p.LongAmount, p.ShortAmount);
+}
+```
+
+## Access to account trades
+```c#
+// Account trades
+List<TTTrade> trades = client.GetAllTrades().Result;
+foreach (var t in trades)
+    Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.Symbol, t.Amount);
+    
+// Account trade by Id
+TTTrade trade = client.GetTrade(trades[0].Id).Result;
+Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.Symbol, t.Amount);    
+```
+
+## Create, modify and cancel limit order
+```c#
+// Create limit order
+if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingType == TTAccountingTypes.Net))
+{
+    var limit = client.CreateTrade(new TTTradeCreate
+    {
+        Type = TTOrderTypes.Limit, 
+        Side = TTOrderSides.Buy,
+        Symbol = (account.AccountingType == TTAccountingTypes.Gross) ? "EURUSD" : "EUR/USD", 
+        Amount = 10000, 
+        Price = 1.0M,
+        Comment = "Buy limit from Web API sample"
+    }).Result;
+
+    limit = client.ModifyTrade(new TTTradeModify
+    {
+        Id = limit.Id,
+        Comment = "Modified limit from Web API sample"
+    }).Result;
+
+    client.CancelTrade(limit.Id).Wait();
+}
 ```
