@@ -552,7 +552,7 @@ namespace TTWebClient
         /// <summary>
         /// Cancel existing pending trade
         /// </summary>
-        /// <param name="tradeId">Trade Id</param>
+        /// <param name="tradeId">Trade Id to cancel</param>
         public async Task CancelTrade(long tradeId)
         {
             using (var client = CreateHttpClient())
@@ -566,7 +566,7 @@ namespace TTWebClient
         /// <summary>
         /// Close existing market trade
         /// </summary>
-        /// <param name="tradeId">Trade Id</param>
+        /// <param name="tradeId">Trade Id to close</param>
         /// <param name="amount">Amount to close (optional)</param>
         public async Task CloseTrade(long tradeId, decimal? amount)
         {
@@ -581,7 +581,7 @@ namespace TTWebClient
         /// <summary>
         /// Close existing market trade by another one
         /// </summary>
-        /// <param name="tradeId">Trade Id</param>
+        /// <param name="tradeId">Trade Id to close</param>
         /// <param name="byTradeId">By trade Id</param>
         public async Task CloseByTrade(long tradeId, long byTradeId)
         {

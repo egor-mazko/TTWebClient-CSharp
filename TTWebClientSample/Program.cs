@@ -35,7 +35,7 @@ namespace TTWebClientSample
             Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
             Console.WriteLine("TickTrader session status: {0}", publictradesession.SessionStatus);
 
-            // Public currency
+            // Public currencies
             List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies().Result;
             foreach (var c in publicCurrencies)
                 Console.WriteLine("Currency: " + c.Name);
