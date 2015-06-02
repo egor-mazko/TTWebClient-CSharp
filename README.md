@@ -9,7 +9,7 @@ string webApiKey = "qXhpBKFkndWWGYQ2";
 string webApiSecret = "dSccqQmtaPc2xB68GD6A7KBgpfRhHJkFe5AchGShbDGzyn8H8ThjPspCq6Yh8cTz";
 
 // Optional: Force to ignore server certificate
-TickTraderWebClient.IgnoreServerCeritficate();
+TickTraderWebClient.IgnoreServerCertificate();
 
 // Create instance of the TickTrader Web API client
 var client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiSecret);
