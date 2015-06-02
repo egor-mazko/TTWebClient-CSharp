@@ -20,8 +20,8 @@ namespace TTWebClientSample
             string webApiKey = args[2];
             string webApiSecret = args[3];
 
-            // Optional: Force to ignore server certificate
-            TickTraderWebClient.IgnoreServerCeritficate();
+            // Optional: Force to ignore server certificate 
+            TickTraderWebClient.IgnoreServerCertificate();
 
             // Create instance of the TickTrader Web API client
             var client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiSecret);

@@ -600,7 +600,7 @@ namespace TTWebClient
         /// <summary>
         /// Force to ignore server SSL/TLS ceritficate
         /// </summary>
-        public static void IgnoreServerCeritficate()
+        public static void IgnoreServerCertificate()
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;            
         }
