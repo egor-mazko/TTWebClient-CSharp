@@ -23,7 +23,10 @@ Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
 Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
 Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
 Console.WriteLine("TickTrader session status: {0}", publictradesession.SessionStatus);
+```
 
+## Access to public currencies information
+```c#
 // Public currency
 List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies().Result;
 foreach (var c in publicCurrencies)
@@ -31,7 +34,10 @@ foreach (var c in publicCurrencies)
 
 TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name).Result;
 Console.WriteLine("{0} currency precision: {1}", publicCurrency.Name, publicCurrency.Precision);
+```
 
+## Access to public symbols information
+```c#
 // Public symbols
 List<TTSymbol> publicSymbols = client.GetPublicAllSymbols().Result;
 foreach (var s in publicSymbols)
@@ -39,7 +45,10 @@ foreach (var s in publicSymbols)
 
 TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol).Result;
 Console.WriteLine("{0} symbol precision: {1}", publicSymbol.Symbol, publicSymbol.Precision);
+```
 
+## Access to public feed ticks information
+```c#
 // Public feed ticks
 List<TTFeedTick> publicTicks = client.GetPublicAllTicks().Result;
 foreach (var t in publicTicks)
@@ -47,56 +56,17 @@ foreach (var t in publicTicks)
 
 TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol).Result;
 Console.WriteLine("{0} tick timestamp: {1}", publicTick.Symbol, publicTick.Timestamp);
+```
 
-// Public feed level2 ticks
+## Access to public feed ticks level2 information
+```c#
+// Public feed ticks level2
 List<TTFeedTickLevel2> publicTicksLevel2 = client.GetPublicAllTicksLevel2().Result;
 foreach (var t in publicTicksLevel2)
     Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
 TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol).Result;
-Console.WriteLine("{0} level 2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
-```
-
-## Access to currency, symbol, feed tick information
-```c#
-// Currencies
-List<TTCurrency> currencies = client.GetAllCurrencies().Result;
-foreach (var c in currencies)
-    Console.WriteLine("Currency: " + c.Name);
-
-TTCurrency currency = client.GetCurrency(currencies[0].Name).Result;
-Console.WriteLine("{0} currency precision: {1}", currency.Name, currency.Precision);
-
-// Symbols
-List<TTSymbol> symbols = client.GetAllSymbols().Result;
-foreach (var s in symbols)
-    Console.WriteLine("Symbol: " + s.Symbol);
-
-TTSymbol symbol = client.GetSymbol(symbols[0].Symbol).Result;
-Console.WriteLine("{0} symbol precision: {1}", symbol.Symbol, symbol.Precision);
-
-// Feed ticks
-List<TTFeedTick> ticks = client.GetAllTicks().Result;
-foreach (var t in ticks)
-    Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
-
-TTFeedTick tick = client.GetTick(ticks[0].Symbol).Result;
-Console.WriteLine("{0} tick timestamp: {1}", tick.Symbol, tick.Timestamp);
-
-// Feed level2 ticks
-List<TTFeedTickLevel2> ticksLevel2 = client.GetAllTicksLevel2().Result;
-foreach (var t in ticksLevel2)
-    Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
-
-TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).Result;
-Console.WriteLine("{0} level 2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
-```
-
-## Access to trade session information
-```c#
-// Trade session status
-TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
-Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
+Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
 ```
 
 ## Access to account information
@@ -108,7 +78,59 @@ Console.WriteLine("Account name: {0}", account.Name);
 Console.WriteLine("Account group: {0}", account.Group);
 ```
 
-## Access to account assets information. Works only for cash accounts!
+## Access to account trade session information
+```c#
+// Trade session status
+TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
+Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
+```
+
+## Access to account currencies information
+```c#
+// Currencies
+List<TTCurrency> currencies = client.GetAllCurrencies().Result;
+foreach (var c in currencies)
+    Console.WriteLine("Currency: " + c.Name);
+
+TTCurrency currency = client.GetCurrency(currencies[0].Name).Result;
+Console.WriteLine("{0} currency precision: {1}", currency.Name, currency.Precision);
+```
+
+## Access to account symbols information
+```c#
+// Symbols
+List<TTSymbol> symbols = client.GetAllSymbols().Result;
+foreach (var s in symbols)
+    Console.WriteLine("Symbol: " + s.Symbol);
+
+TTSymbol symbol = client.GetSymbol(symbols[0].Symbol).Result;
+Console.WriteLine("{0} symbol precision: {1}", symbol.Symbol, symbol.Precision);
+```
+
+## Access to account feed ticks information
+```c#
+// Feed ticks
+List<TTFeedTick> ticks = client.GetAllTicks().Result;
+foreach (var t in ticks)
+    Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
+
+TTFeedTick tick = client.GetTick(ticks[0].Symbol).Result;
+Console.WriteLine("{0} tick timestamp: {1}", tick.Symbol, tick.Timestamp);
+```
+
+## Access to account feed ticks level2 information
+```c#
+// Feed ticks level2
+List<TTFeedTickLevel2> ticksLevel2 = client.GetAllTicksLevel2().Result;
+foreach (var t in ticksLevel2)
+    Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
+
+TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).Result;
+Console.WriteLine("{0} level2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
+```
+
+## Access to account assets information
+Works only for cash accounts!
 ```c#
 // Account assets
 if (account.AccountingType == TTAccountingTypes.Cash)
@@ -119,7 +141,8 @@ if (account.AccountingType == TTAccountingTypes.Cash)
 }
 ```
 
-## Access to account positions information. Works only for net accounts!
+## Access to account positions information
+Works only for net accounts!
 ```c#
 // Account positions
 if (account.AccountingType == TTAccountingTypes.Net)
