@@ -30,7 +30,7 @@ namespace TTWebClientSample
 
             Console.WriteLine("--- Public Web API methods ---");
 
-            GetPublicTradeSessionStatus(client);
+            GetPublicTradeSession(client);
 
             GetPublicCurrencies(client);
             GetPublicSymbols(client);
@@ -40,7 +40,7 @@ namespace TTWebClientSample
             Console.WriteLine("--- Web API client methods ---");
 
             GetAccount(client);
-            GetTradeSessionStatus(client);
+            GetTradeSession(client);
 
             GetCurrencies(client);
             GetSymbols(client);
@@ -56,12 +56,12 @@ namespace TTWebClientSample
 
         #endregion
 
-        #region Public Tick Trader information
+        #region Public trade session information
 
-        public static void GetPublicTradeSessionStatus(TickTraderWebClient client)
+        public static void GetPublicTradeSession(TickTraderWebClient client)
         {
-            // Public trade session status
-            TTTradeSessionStatus publictradesession = client.GetPublicTradeSessionStatus().Result;
+            // Public trade session
+            TTTradeSession publictradesession = client.GetPublicTradeSession().Result;
             Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
             Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
             Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
@@ -133,10 +133,10 @@ namespace TTWebClientSample
 
         #region Account trade session information
 
-        public static void GetTradeSessionStatus(TickTraderWebClient client)
+        public static void GetTradeSession(TickTraderWebClient client)
         {
-            // Account trade session status
-            TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
+            // Account trade session
+            TTTradeSession tradesession = client.GetTradeSession().Result;
             Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
         }
 

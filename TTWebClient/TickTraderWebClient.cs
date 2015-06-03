@@ -69,7 +69,7 @@ namespace TTWebClient
         /// Get public trade session information
         /// </summary>
         /// <returns>Public trade session information</returns>
-        public async Task<TTTradeSessionStatus> GetPublicTradeSessionStatus()
+        public async Task<TTTradeSession> GetPublicTradeSession()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/public/tradesession"))
@@ -77,7 +77,7 @@ namespace TTWebClient
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException(await response.Content.ReadAsStringAsync());
 
-                return await response.Content.ReadAsAsync<TTTradeSessionStatus>(_formatters);
+                return await response.Content.ReadAsAsync<TTTradeSession>(_formatters);
             }
         }
 
@@ -218,6 +218,38 @@ namespace TTWebClient
         #region Web API Methods
 
         /// <summary>
+        /// Get account information
+        /// </summary>
+        /// <returns>Account information</returns>
+        public async Task<TTAccount> GetAccount()
+        {
+            using (var client = CreateHttpClient())
+            using (HttpResponseMessage response = await client.GetAsync("api/v1/account"))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsAsync<TTAccount>(_formatters);
+            }
+        }
+
+        /// <summary>
+        /// Get trade session information
+        /// </summary>
+        /// <returns>Trade session information</returns>
+        public async Task<TTTradeSession> GetTradeSession()
+        {
+            using (var client = CreateHttpClient())
+            using (HttpResponseMessage response = await client.GetAsync("api/v1/tradesession"))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsAsync<TTTradeSession>(_formatters);
+            }
+        }
+
+        /// <summary>
         /// Get list of all available currencies
         /// </summary>
         /// <returns>List of all available currencies</returns>
@@ -346,38 +378,6 @@ namespace TTWebClient
                     throw new HttpRequestException(await response.Content.ReadAsStringAsync());
 
                 return await response.Content.ReadAsAsync<TTFeedTickLevel2>(_formatters);
-            }
-        }
-
-        /// <summary>
-        /// Get trade session information
-        /// </summary>
-        /// <returns>Trade session information</returns>
-        public async Task<TTTradeSessionStatus> GetTradeSessionStatus()
-        {
-            using (var client = CreateHttpClient())
-            using (HttpResponseMessage response = await client.GetAsync("api/v1/tradesession"))
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
-
-                return await response.Content.ReadAsAsync<TTTradeSessionStatus>(_formatters);
-            }
-        }
-
-        /// <summary>
-        /// Get account information
-        /// </summary>
-        /// <returns>Account information</returns>
-        public async Task<TTAccount> GetAccount()
-        {
-            using (var client = CreateHttpClient())
-            using (HttpResponseMessage response = await client.GetAsync("api/v1/account"))
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
-
-                return await response.Content.ReadAsAsync<TTAccount>(_formatters);
             }
         }
 

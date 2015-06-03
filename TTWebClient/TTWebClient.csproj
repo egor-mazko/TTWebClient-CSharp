@@ -65,7 +65,7 @@
     <Compile Include="Domain\TTTrade.cs" />
     <Compile Include="Domain\TTTradeCreate.cs" />
     <Compile Include="Domain\TTTradeModify.cs" />
-    <Compile Include="Domain\TTTradeSessionStatus.cs" />
+    <Compile Include="Domain\TTTradeSession.cs" />
     <Compile Include="TickTraderWebClient.cs" />
     <Compile Include="Domain\TTCurrency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
