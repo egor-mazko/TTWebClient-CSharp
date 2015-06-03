@@ -233,10 +233,11 @@ namespace TTWebClientSample
 
         public static void LimitOrder(TickTraderWebClient client)
         {
-            // Create limit order
+            // Create, modify and cancel limit order
             TTAccount account = client.GetAccount().Result;
             if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingType == TTAccountingTypes.Net))
             {
+	        // Create limit order
                 var limit = client.CreateTrade(new TTTradeCreate
                 {
                     Type = TTOrderTypes.Limit,
@@ -247,12 +248,14 @@ namespace TTWebClientSample
                     Comment = "Buy limit from Web API sample"
                 }).Result;
 
+	        // Modify limit order
                 limit = client.ModifyTrade(new TTTradeModify
                 {
                     Id = limit.Id,
                     Comment = "Modified limit from Web API sample"
                 }).Result;
 
+	        // Cancel limit order
                 client.CancelTrade(limit.Id).Wait();
             }
         }
