@@ -129,7 +129,8 @@ TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).Result
 Console.WriteLine("{0} level 2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
 ```
 
-## Access to account assets information. Works only for cash accounts!
+## Access to account assets information
+Works only for cash accounts!
 ```c#
 // Account assets
 if (account.AccountingType == TTAccountingTypes.Cash)
@@ -140,7 +141,8 @@ if (account.AccountingType == TTAccountingTypes.Cash)
 }
 ```
 
-## Access to account positions information. Works only for net accounts!
+## Access to account positions information
+Works only for net accounts!
 ```c#
 // Account positions
 if (account.AccountingType == TTAccountingTypes.Net)
