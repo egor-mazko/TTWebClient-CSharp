@@ -58,15 +58,15 @@ TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol).Result;
 Console.WriteLine("{0} tick timestamp: {1}", publicTick.Symbol, publicTick.Timestamp);
 ```
 
-## Access to public feed level2 ticks information
+## Access to public feed ticks level2 information
 ```c#
-// Public feed level2 ticks
+// Public feed ticks level2
 List<TTFeedTickLevel2> publicTicksLevel2 = client.GetPublicAllTicksLevel2().Result;
 foreach (var t in publicTicksLevel2)
     Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
 TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol).Result;
-Console.WriteLine("{0} level 2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
+Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
 ```
 
 ## Access to account information
@@ -118,15 +118,15 @@ TTFeedTick tick = client.GetTick(ticks[0].Symbol).Result;
 Console.WriteLine("{0} tick timestamp: {1}", tick.Symbol, tick.Timestamp);
 ```
 
-## Access to account feed level2 ticks information
+## Access to account feed ticks level2 information
 ```c#
-// Feed level2 ticks
+// Feed ticks level2
 List<TTFeedTickLevel2> ticksLevel2 = client.GetAllTicksLevel2().Result;
 foreach (var t in ticksLevel2)
     Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
 TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).Result;
-Console.WriteLine("{0} level 2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
+Console.WriteLine("{0} level2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
 ```
 
 ## Access to account assets information
