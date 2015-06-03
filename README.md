@@ -167,9 +167,10 @@ Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.
 
 ## Create, modify and cancel limit order
 ```c#
-// Create limit order
+// Create, modify and cancel limit order
 if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingType == TTAccountingTypes.Net))
 {
+    // Create limit order
     var limit = client.CreateTrade(new TTTradeCreate
     {
         Type = TTOrderTypes.Limit, 
@@ -180,12 +181,14 @@ if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingTy
         Comment = "Buy limit from Web API sample"
     }).Result;
 
+    // Modify limit order
     limit = client.ModifyTrade(new TTTradeModify
     {
         Id = limit.Id,
         Comment = "Modified limit from Web API sample"
     }).Result;
 
+    // Cancel limit order
     client.CancelTrade(limit.Id).Wait();
 }
 ```
