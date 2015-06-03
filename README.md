@@ -15,10 +15,10 @@ TickTraderWebClient.IgnoreServerCertificate();
 var client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiSecret);
 ```
 
-## Access to public Tick Trader information
+## Access to public trade session information
 ```c#
-// Public trade session status
-TTTradeSessionStatus publictradesession = client.GetPublicTradeSessionStatus().Result;
+// Public trade session
+TTTradeSession publictradesession = client.GetPublicTradeSession().Result;
 Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
 Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
 Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
@@ -80,8 +80,8 @@ Console.WriteLine("Account group: {0}", account.Group);
 
 ## Access to account trade session information
 ```c#
-// Trade session status
-TTTradeSessionStatus tradesession = client.GetTradeSessionStatus().Result;
+// Trade session
+TTTradeSession tradesession = client.GetTradeSession().Result;
 Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
 ```
 
