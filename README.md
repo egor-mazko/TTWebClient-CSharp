@@ -165,6 +165,27 @@ TTTrade trade = client.GetTrade(trades[0].Id).Result;
 Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.Symbol, t.Amount);    
 ```
 
+## Access to account trade history
+```c#
+int iterations = 3;
+var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward };
+
+// Try to get trade history from now to the past. Request is limited to 300 records!
+while (iterations-- > 0)
+{
+    TTTradeHistoryReport report = client.RequestTradeHistory(request).Result;
+    foreach (var record in report.Records)
+    {
+        Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
+        request.RequestLastId = record.Id;
+    }
+    
+    // Stop for last report
+    if (report.IsLastReport)
+        break;
+}
+```
+
 ## Create, modify and cancel limit order
 ```c#
 // Create, modify and cancel limit order
@@ -190,26 +211,5 @@ if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingTy
 
     // Cancel limit order
     client.CancelTrade(limit.Id).Wait();
-}
-```
-
-## Trade history
-```c#
-int iterations = 3;
-var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward };
-
-// Try to get trade history from now to the past. Request is limited to 300 records!
-while (iterations-- > 0)
-{
-    TTTradeHistoryReport report = client.RequestTradeHistory(request).Result;
-    foreach (var record in report.Records)
-    {
-        Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
-        request.RequestLastId = record.Id;
-    }
-    
-    // Stop for last report
-    if (report.IsLastReport)
-        break;
 }
 ```
