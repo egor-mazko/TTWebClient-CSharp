@@ -173,7 +173,7 @@ var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, Request
 // Try to get trade history from now to the past. Request is limited to 300 records!
 while (iterations-- > 0)
 {
-    TTTradeHistoryReport report = client.RequestTradeHistory(request).Result;
+    TTTradeHistoryReport report = client.GetTradeHistory(request).Result;
     foreach (var record in report.Records)
     {
         Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
