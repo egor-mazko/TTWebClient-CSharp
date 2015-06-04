@@ -60,6 +60,8 @@
     <Compile Include="Domain\TTFeedLevel2Record.cs" />
     <Compile Include="Domain\TTFeedTick.cs" />
     <Compile Include="Domain\TTFeedTickLevel2.cs" />
+    <Compile Include="Domain\TTHistoryReport.cs" />
+    <Compile Include="Domain\TTHistoryRequest.cs" />
     <Compile Include="Domain\TTPosition.cs" />
     <Compile Include="Domain\TTSymbol.cs" />
     <Compile Include="Domain\TTTrade.cs" />

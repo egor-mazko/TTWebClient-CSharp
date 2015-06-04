@@ -20,7 +20,7 @@ namespace TTWebClient.Domain
         public decimal? TakeProfit { get; set; }
 
         /// <summary>Expired timestamp (optional)</summary>
-        public DateTime? ExpiredTimestamp { get; set; }
+        public DateTime? Expired { get; set; }
 
         /// <summary>Comment (optional)</summary>
         public string Comment { get; set; }

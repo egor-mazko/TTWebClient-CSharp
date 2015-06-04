@@ -593,6 +593,71 @@ namespace TTWebClient
             }
         }
 
+        /// <summary>
+        /// Request account trade history
+        /// </summary>
+        /// <remarks>
+        /// New trade history request is described by the filling following fields:
+        /// - **TimestampFrom** (optional) - Lower timestamp bound of the trade history request
+        /// - **TimestampTo** (optional) - Upper timestamp bound of the trade history request
+        /// - **RequestDirection** (optional) - Request paging direction ("Forward" or "Backward"). Default is "Forward".
+        /// - **RequestFromId** (optional) - Request paging from Id
+        /// 
+        /// If timestamps fields are not set trade history will be requests from the begin or from the current timestamp 
+        /// depending on **RequestDirection** value.
+        /// 
+        /// Trade history is returned with paging by chunks of 100 records. You can provide timestamp bounds (from, to) and direction
+        /// of access (forward or backward). After the first request you'll get a list of trade history records with Ids. The next
+        /// request should contain **RequestFromId** with the Id of the last processed trade history record. As the result you'll
+        /// get the next chunk of trade history records. If the last page was reached response flag **IsLastReport** will be set.
+        /// </remarks>        
+        /// <param name="request">Trade history request</param>
+        /// <returns>Trade history report</returns>
+        public async Task<TTTradeHistoryReport> RequestTradeHistory(TTTradeHistoryRequest request)
+        {
+            using (var client = CreateHttpClient())
+            using (HttpResponseMessage response = await client.PostAsync("api/v1/tradehistory", request, new JilMediaTypeFormatter()))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsAsync<TTTradeHistoryReport>(_formatters);
+            }
+        }
+
+        /// <summary>
+        /// Request account trade history for the given trade Id
+        /// </summary>
+        /// <remarks>
+        /// New trade history request is described by the filling following fields:
+        /// - **TimestampFrom** (optional) - Lower timestamp bound of the trade history request
+        /// - **TimestampTo** (optional) - Upper timestamp bound of the trade history request
+        /// - **RequestDirection** (optional) - Request paging direction ("Forward" or "Backward"). Default is "Forward".
+        /// - **RequestFromId** (optional) - Request paging from Id
+        /// 
+        /// If timestamps fields are not set trade history will be requests from the begin or from the current timestamp 
+        /// depending on **RequestDirection** value.
+        /// 
+        /// Trade history is returned with paging by chunks of 100 records. You can provide timestamp bounds (from, to) and direction
+        /// of access (forward or backward). After the first request you'll get a list of trade history records with Ids. The next
+        /// request should contain **RequestFromId** with the Id of the last processed trade history record. As the result you'll
+        /// get the next chunk of trade history records. If the last page was reached response flag **IsLastReport** will be set.
+        /// </remarks>        
+        /// <param name="tradeId">Trade Id</param>
+        /// <param name="request">Trade history request</param>
+        /// <returns>Trade history report</returns>
+        public async Task<TTTradeHistoryReport> RequestTradeHistory(long tradeId, TTTradeHistoryRequest request)
+        {
+            using (var client = CreateHttpClient())
+            using (HttpResponseMessage response = await client.PostAsync(string.Format("api/v1/tradehistory/{0}", tradeId), request, new JilMediaTypeFormatter()))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsAsync<TTTradeHistoryReport>(_formatters);
+            }
+        }
+
         #endregion
 
         #region Utility Methods

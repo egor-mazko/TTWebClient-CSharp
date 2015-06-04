@@ -52,6 +52,8 @@ namespace TTWebClientSample
             GetTrades(client);
 
             LimitOrder(client);
+
+            TradeHistory(client);
         }
 
         #endregion
@@ -237,7 +239,7 @@ namespace TTWebClientSample
             TTAccount account = client.GetAccount().Result;
             if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingType == TTAccountingTypes.Net))
             {
-	        // Create limit order
+                // Create limit order
                 var limit = client.CreateTrade(new TTTradeCreate
                 {
                     Type = TTOrderTypes.Limit,
@@ -248,15 +250,40 @@ namespace TTWebClientSample
                     Comment = "Buy limit from Web API sample"
                 }).Result;
 
-	        // Modify limit order
+                // Modify limit order
                 limit = client.ModifyTrade(new TTTradeModify
                 {
                     Id = limit.Id,
                     Comment = "Modified limit from Web API sample"
                 }).Result;
 
-	        // Cancel limit order
+                // Cancel limit order
                 client.CancelTrade(limit.Id).Wait();
+            }
+        }
+
+        #endregion
+
+        #region Trade history
+
+        public static void TradeHistory(TickTraderWebClient client)
+        {
+            int iterations = 3;
+            var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward };
+
+            // Try to get trade history from now to the past. Request is limited to 300 records!
+            while (iterations-- > 0)
+            {
+                TTTradeHistoryReport report = client.RequestTradeHistory(request).Result;
+                foreach (var record in report.Records)
+                {
+                    Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
+                    request.RequestLastId = record.Id;
+                }
+                
+                // Stop for last report
+                if (report.IsLastReport)
+                    break;
             }
         }
 

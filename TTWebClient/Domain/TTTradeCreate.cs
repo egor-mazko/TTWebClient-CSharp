@@ -32,7 +32,7 @@ namespace TTWebClient.Domain
         public decimal? TakeProfit { get; set; }
 
         /// <summary>Expired timestamp (optional)</summary>
-        public DateTime? ExpiredTimestamp { get; set; }
+        public DateTime? Expired { get; set; }
 
         /// <summary>Immediate or cancel execution option (optional)</summary>
         public bool? ImmediateOrCancel { get; set; }

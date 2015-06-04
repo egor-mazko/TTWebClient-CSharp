@@ -93,19 +93,19 @@ namespace TTWebClient.Domain
         public decimal? Swap { get; set; }
 
         /// <summary>Created timestamp</summary>
-        public DateTime CreatedTimestamp { get; set; }
+        public DateTime Created { get; set; }
 
         /// <summary>Expired timestamp</summary>
-        public DateTime? ExpiredTimestamp { get; set; }
+        public DateTime? Expired { get; set; }
 
         /// <summary>Modified timestamp</summary>
-        public DateTime? ModifiedTimestamp { get; set; }
+        public DateTime? Modified { get; set; }
 
         /// <summary>Filled timestamp</summary>
-        public DateTime? FilledTimestamp { get; set; }
+        public DateTime? Filled { get; set; }
 
         /// <summary>Position created timestamp</summary>
-        public DateTime? PositionCreatedTimestamp { get; set; }
+        public DateTime? PositionCreated { get; set; }
 
         /// <summary>Comment</summary>
         public string Comment { get; set; }

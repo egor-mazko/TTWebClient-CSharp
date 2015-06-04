@@ -35,8 +35,8 @@ namespace TTWebClient.Domain
         /// <summary>Comment</summary>
         public string Comment { get; set; }
 
-        /// <summary>Registration date</summary>
-        public DateTime RegistrationDate { get; set; }
+        /// <summary>Registered timestamp</summary>
+        public DateTime Registered { get; set; }
 
         /// <summary>Is account blocked?</summary>
         public bool IsBlocked { get; set; }
