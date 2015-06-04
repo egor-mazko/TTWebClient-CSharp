@@ -168,9 +168,9 @@ Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.
 ## Access to account trade history
 ```c#
 int iterations = 3;
-var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward };
+var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward, RequestPageSize = 10 };
 
-// Try to get trade history from now to the past. Request is limited to 300 records!
+// Try to get trade history from now to the past. Request is limited to 30 records!
 while (iterations-- > 0)
 {
     TTTradeHistoryReport report = client.GetTradeHistory(request).Result;
