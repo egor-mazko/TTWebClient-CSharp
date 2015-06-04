@@ -606,10 +606,11 @@ namespace TTWebClient
         /// If timestamps fields are not set trade history will be requests from the begin or from the current timestamp 
         /// depending on **RequestDirection** value.
         /// 
-        /// Trade history is returned with paging by chunks of 100 records. You can provide timestamp bounds (from, to) and direction
-        /// of access (forward or backward). After the first request you'll get a list of trade history records with Ids. The next
-        /// request should contain **RequestFromId** with the Id of the last processed trade history record. As the result you'll
-        /// get the next chunk of trade history records. If the last page was reached response flag **IsLastReport** will be set.
+        /// Trade history is returned by chunks by paging size (default is 100). You can provide timestamp bounds (from, to)
+        /// and direction of access (forward or backward). After the first request you'll get a list of trade history 
+        /// records with Ids. The next request should contain **RequestFromId** with the Id of the last processed trade 
+        /// history record. As the result you'll get the next chunk of trade history records. If the last page was reached 
+        /// response flag **IsLastReport** will be set.
         /// </remarks>        
         /// <param name="request">Trade history request</param>
         /// <returns>Trade history report</returns>
@@ -638,10 +639,11 @@ namespace TTWebClient
         /// If timestamps fields are not set trade history will be requests from the begin or from the current timestamp 
         /// depending on **RequestDirection** value.
         /// 
-        /// Trade history is returned with paging by chunks of 100 records. You can provide timestamp bounds (from, to) and direction
-        /// of access (forward or backward). After the first request you'll get a list of trade history records with Ids. The next
-        /// request should contain **RequestFromId** with the Id of the last processed trade history record. As the result you'll
-        /// get the next chunk of trade history records. If the last page was reached response flag **IsLastReport** will be set.
+        /// Trade history is returned by chunks by paging size (default is 100). You can provide timestamp bounds (from, to)
+        /// and direction of access (forward or backward). After the first request you'll get a list of trade history 
+        /// records with Ids. The next request should contain **RequestFromId** with the Id of the last processed trade 
+        /// history record. As the result you'll get the next chunk of trade history records. If the last page was reached 
+        /// response flag **IsLastReport** will be set.
         /// </remarks>        
         /// <param name="tradeId">Trade Id</param>
         /// <param name="request">Trade history request</param>
