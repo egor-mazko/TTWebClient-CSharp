@@ -594,7 +594,7 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Request account trade history
+        /// Get account trade history
         /// </summary>
         /// <remarks>
         /// New trade history request is described by the filling following fields:
@@ -613,7 +613,7 @@ namespace TTWebClient
         /// </remarks>        
         /// <param name="request">Trade history request</param>
         /// <returns>Trade history report</returns>
-        public async Task<TTTradeHistoryReport> RequestTradeHistory(TTTradeHistoryRequest request)
+        public async Task<TTTradeHistoryReport> GetTradeHistory(TTTradeHistoryRequest request)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.PostAsync("api/v1/tradehistory", request, new JilMediaTypeFormatter()))
@@ -626,7 +626,7 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Request account trade history for the given trade Id
+        /// Get account trade history for the given trade Id
         /// </summary>
         /// <remarks>
         /// New trade history request is described by the filling following fields:
@@ -646,7 +646,7 @@ namespace TTWebClient
         /// <param name="tradeId">Trade Id</param>
         /// <param name="request">Trade history request</param>
         /// <returns>Trade history report</returns>
-        public async Task<TTTradeHistoryReport> RequestTradeHistory(long tradeId, TTTradeHistoryRequest request)
+        public async Task<TTTradeHistoryReport> GetTradeHistory(long tradeId, TTTradeHistoryRequest request)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.PostAsync(string.Format("api/v1/tradehistory/{0}", tradeId), request, new JilMediaTypeFormatter()))
