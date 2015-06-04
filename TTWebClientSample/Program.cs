@@ -50,10 +50,9 @@ namespace TTWebClientSample
             GetAssets(client);
             GetPositions(client);
             GetTrades(client);
+            GetTradeHistory(client);
 
             LimitOrder(client);
-
-            TradeHistory(client);
         }
 
         #endregion
@@ -231,6 +230,31 @@ namespace TTWebClientSample
 
         #endregion
 
+        #region Account trade history information
+
+        public static void GetTradeHistory(TickTraderWebClient client)
+        {
+            int iterations = 3;
+            var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward };
+
+            // Try to get trade history from now to the past. Request is limited to 300 records!
+            while (iterations-- > 0)
+            {
+                TTTradeHistoryReport report = client.RequestTradeHistory(request).Result;
+                foreach (var record in report.Records)
+                {
+                    Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
+                    request.RequestLastId = record.Id;
+                }
+                
+                // Stop for last report
+                if (report.IsLastReport)
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Create, modify and cancel limit order
 
         public static void LimitOrder(TickTraderWebClient client)
@@ -259,31 +283,6 @@ namespace TTWebClientSample
 
                 // Cancel limit order
                 client.CancelTrade(limit.Id).Wait();
-            }
-        }
-
-        #endregion
-
-        #region Trade history
-
-        public static void TradeHistory(TickTraderWebClient client)
-        {
-            int iterations = 3;
-            var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward };
-
-            // Try to get trade history from now to the past. Request is limited to 300 records!
-            while (iterations-- > 0)
-            {
-                TTTradeHistoryReport report = client.RequestTradeHistory(request).Result;
-                foreach (var record in report.Records)
-                {
-                    Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
-                    request.RequestLastId = record.Id;
-                }
-                
-                // Stop for last report
-                if (report.IsLastReport)
-                    break;
             }
         }
 
