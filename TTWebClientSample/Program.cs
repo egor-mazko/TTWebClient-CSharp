@@ -62,7 +62,7 @@ namespace TTWebClientSample
         public static void GetPublicTradeSession(TickTraderWebClient client)
         {
             // Public trade session
-            TTTradeSession publictradesession = client.GetPublicTradeSession().Result;
+            TTTradeSession publictradesession = client.GetPublicTradeSession();
             Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
             Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
             Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
@@ -76,44 +76,44 @@ namespace TTWebClientSample
         public static void GetPublicCurrencies(TickTraderWebClient client)
         {
             // Public currencies
-            List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies().Result;
+            List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies();
             foreach (var c in publicCurrencies)
                 Console.WriteLine("Currency: " + c.Name);
 
-            TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name).Result;
+            TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name);
             Console.WriteLine("{0} currency precision: {1}", publicCurrency.Name, publicCurrency.Precision);
         }
 
         public static void GetPublicSymbols(TickTraderWebClient client)
         {
             // Public symbols
-            List<TTSymbol> publicSymbols = client.GetPublicAllSymbols().Result;
+            List<TTSymbol> publicSymbols = client.GetPublicAllSymbols();
             foreach (var s in publicSymbols)
                 Console.WriteLine("Symbol: " + s.Symbol);
 
-            TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol).Result;
+            TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol);
             Console.WriteLine("{0} symbol precision: {1}", publicSymbol.Symbol, publicSymbol.Precision);
         }
 
         public static void GetPublicTicks(TickTraderWebClient client)
         {
             // Public feed ticks
-            List<TTFeedTick> publicTicks = client.GetPublicAllTicks().Result;
+            List<TTFeedTick> publicTicks = client.GetPublicAllTicks();
             foreach (var t in publicTicks)
                 Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
 
-            TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol).Result;
+            TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol);
             Console.WriteLine("{0} tick timestamp: {1}", publicTick.Symbol, publicTick.Timestamp);
         }
 
         public static void GetPublicTicksLevel2(TickTraderWebClient client)
         {
             // Public feed ticks level2 
-            List<TTFeedTickLevel2> publicTicksLevel2 = client.GetPublicAllTicksLevel2().Result;
+            List<TTFeedTickLevel2> publicTicksLevel2 = client.GetPublicAllTicksLevel2();
             foreach (var t in publicTicksLevel2)
                 Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
-            TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol).Result;
+            TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol);
             Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
         }
 
@@ -124,7 +124,7 @@ namespace TTWebClientSample
         public static void GetAccount(TickTraderWebClient client)
         {
             // Account info
-            TTAccount account = client.GetAccount().Result;
+            TTAccount account = client.GetAccount();
             Console.WriteLine("Account Id: {0}", account.Id);
             Console.WriteLine("Account name: {0}", account.Name);
             Console.WriteLine("Account group: {0}", account.Group);
@@ -137,7 +137,7 @@ namespace TTWebClientSample
         public static void GetTradeSession(TickTraderWebClient client)
         {
             // Account trade session
-            TTTradeSession tradesession = client.GetTradeSession().Result;
+            TTTradeSession tradesession = client.GetTradeSession();
             Console.WriteLine("Trade session status: {0}", tradesession.SessionStatus);
         }
 
@@ -148,44 +148,44 @@ namespace TTWebClientSample
         public static void GetCurrencies(TickTraderWebClient client)
         {
             // Account currencies
-            List<TTCurrency> currencies = client.GetAllCurrencies().Result;
+            List<TTCurrency> currencies = client.GetAllCurrencies();
             foreach (var c in currencies)
                 Console.WriteLine("Currency: " + c.Name);
 
-            TTCurrency currency = client.GetCurrency(currencies[0].Name).Result;
+            TTCurrency currency = client.GetCurrency(currencies[0].Name);
             Console.WriteLine("{0} currency precision: {1}", currency.Name, currency.Precision);
         }
 
         public static void GetSymbols(TickTraderWebClient client)
         {
             // Account symbols
-            List<TTSymbol> symbols = client.GetAllSymbols().Result;
+            List<TTSymbol> symbols = client.GetAllSymbols();
             foreach (var s in symbols)
                 Console.WriteLine("Symbol: " + s.Symbol);
 
-            TTSymbol symbol = client.GetSymbol(symbols[0].Symbol).Result;
+            TTSymbol symbol = client.GetSymbol(symbols[0].Symbol);
             Console.WriteLine("{0} symbol precision: {1}", symbol.Symbol, symbol.Precision);
         }
 
         public static void GetTicks(TickTraderWebClient client)
         {
             // Account feed ticks
-            List<TTFeedTick> ticks = client.GetAllTicks().Result;
+            List<TTFeedTick> ticks = client.GetAllTicks();
             foreach (var t in ticks)
                 Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
 
-            TTFeedTick tick = client.GetTick(ticks[0].Symbol).Result;
+            TTFeedTick tick = client.GetTick(ticks[0].Symbol);
             Console.WriteLine("{0} tick timestamp: {1}", tick.Symbol, tick.Timestamp);
         }
 
         public static void GetTicksLevel2(TickTraderWebClient client)
         {
             // Account feed ticks level2 
-            List<TTFeedTickLevel2> ticksLevel2 = client.GetAllTicksLevel2().Result;
+            List<TTFeedTickLevel2> ticksLevel2 = client.GetAllTicksLevel2();
             foreach (var t in ticksLevel2)
                 Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
-            TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).Result;
+            TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol);
             Console.WriteLine("{0} level2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
         }
 
@@ -196,10 +196,10 @@ namespace TTWebClientSample
         public static void GetAssets(TickTraderWebClient client)
         {
             // Account assets
-            TTAccount account = client.GetAccount().Result;
+            TTAccount account = client.GetAccount();
             if (account.AccountingType == TTAccountingTypes.Cash)
             {
-                List<TTAsset> assets = client.GetAllAssets().Result;
+                List<TTAsset> assets = client.GetAllAssets();
                 foreach (var a in assets)
                     Console.WriteLine("{0} asset: {1}", a.Currency, a.Amount);
             }
@@ -208,10 +208,10 @@ namespace TTWebClientSample
         public static void GetPositions(TickTraderWebClient client)
         {
             // Account positions
-            TTAccount account = client.GetAccount().Result;
+            TTAccount account = client.GetAccount();
             if (account.AccountingType == TTAccountingTypes.Net)
             {
-                List<TTPosition> positions = client.GetAllPositions().Result;
+                List<TTPosition> positions = client.GetAllPositions();
                 foreach (var p in positions)
                     Console.WriteLine("{0} position: {1} {2}", p.Symbol, p.LongAmount, p.ShortAmount);
             }
@@ -220,11 +220,11 @@ namespace TTWebClientSample
         public static void GetTrades(TickTraderWebClient client)
         {
             // Account trades
-            List<TTTrade> trades = client.GetAllTrades().Result;
+            List<TTTrade> trades = client.GetAllTrades();
             foreach (var t in trades)
                 Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", t.Id, t.Type, t.Symbol, t.Amount);
 
-            TTTrade trade = client.GetTrade(trades[0].Id).Result;
+            TTTrade trade = client.GetTrade(trades[0].Id);
             Console.WriteLine("{0} trade with type {1} by symbol {2}: {3}", trade.Id, trade.Type, trade.Symbol, trade.Amount);
         }
 
@@ -240,7 +240,7 @@ namespace TTWebClientSample
             // Try to get trade history from now to the past. Request is limited to 30 records!
             while (iterations-- > 0)
             {
-                TTTradeHistoryReport report = client.GetTradeHistory(request).Result;
+                TTTradeHistoryReport report = client.GetTradeHistory(request);
                 foreach (var record in report.Records)
                 {
                     Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
@@ -260,7 +260,7 @@ namespace TTWebClientSample
         public static void LimitOrder(TickTraderWebClient client)
         {
             // Create, modify and cancel limit order
-            TTAccount account = client.GetAccount().Result;
+            TTAccount account = client.GetAccount();
             if ((account.AccountingType == TTAccountingTypes.Gross) || (account.AccountingType == TTAccountingTypes.Net))
             {
                 // Create limit order
@@ -272,17 +272,17 @@ namespace TTWebClientSample
                     Amount = 10000,
                     Price = 1.0M,
                     Comment = "Buy limit from Web API sample"
-                }).Result;
+                });
 
                 // Modify limit order
                 limit = client.ModifyTrade(new TTTradeModify
                 {
                     Id = limit.Id,
                     Comment = "Modified limit from Web API sample"
-                }).Result;
+                });
 
                 // Cancel limit order
-                client.CancelTrade(limit.Id).Wait();
+                client.CancelTrade(limit.Id);
             }
         }
 

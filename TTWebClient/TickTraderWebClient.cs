@@ -69,7 +69,8 @@ namespace TTWebClient
         /// Get public trade session information
         /// </summary>
         /// <returns>Public trade session information</returns>
-        public async Task<TTTradeSession> GetPublicTradeSession()
+        public TTTradeSession GetPublicTradeSession() { return ConvertToSync(() => GetPublicTradeSessionAsync().Result); }
+        public async Task<TTTradeSession> GetPublicTradeSessionAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/public/tradesession"))
@@ -85,7 +86,8 @@ namespace TTWebClient
         /// Get list of all available public currencies
         /// </summary>
         /// <returns>List of all available public currencies</returns>
-        public async Task<List<TTCurrency>> GetPublicAllCurrencies()
+        public List<TTCurrency> GetPublicAllCurrencies() { return ConvertToSync(() => GetPublicAllCurrenciesAsync().Result); }
+        public async Task<List<TTCurrency>> GetPublicAllCurrenciesAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/public/currency"))
@@ -102,7 +104,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="currency">Currency name</param>
         /// <returns>Public currency with the given name</returns>
-        public async Task<TTCurrency> GetPublicCurrency(string currency)
+        public TTCurrency GetPublicCurrency(string currency) { return ConvertToSync(() => GetPublicCurrencyAsync(currency).Result); }
+        public async Task<TTCurrency> GetPublicCurrencyAsync(string currency)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/public/currency/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(currency)))))
@@ -118,7 +121,8 @@ namespace TTWebClient
         /// Get list of all available public symbols
         /// </summary>
         /// <returns>List of all available public symbols</returns>
-        public async Task<List<TTSymbol>> GetPublicAllSymbols()
+        public List<TTSymbol> GetPublicAllSymbols() { return ConvertToSync(() => GetPublicAllSymbolsAsync().Result); }
+        public async Task<List<TTSymbol>> GetPublicAllSymbolsAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/public/symbol"))
@@ -135,7 +139,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="symbol">Symbol name</param>
         /// <returns>Public symbol with the given name</returns>
-        public async Task<TTSymbol> GetPublicSymbol(string symbol)
+        public TTSymbol GetPublicSymbol(string symbol) { return ConvertToSync(() => GetPublicSymbolAsync(symbol).Result); }
+        public async Task<TTSymbol> GetPublicSymbolAsync(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/public/symbol/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -151,7 +156,8 @@ namespace TTWebClient
         /// Get list of all available public feed ticks
         /// </summary>
         /// <returns>List of all available public feed ticks</returns>
-        public async Task<List<TTFeedTick>> GetPublicAllTicks()
+        public List<TTFeedTick> GetPublicAllTicks() { return ConvertToSync(() => GetPublicAllTicksAsync().Result); }
+        public async Task<List<TTFeedTick>> GetPublicAllTicksAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/public/tick"))
@@ -168,7 +174,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="symbol">Symbol name</param>
         /// <returns>Public feed tick with the given symbol name</returns>
-        public async Task<TTFeedTick> GetPublicTick(string symbol)
+        public TTFeedTick GetPublicTick(string symbol) { return ConvertToSync(() => GetPublicTickAsync(symbol).Result); }
+        public async Task<TTFeedTick> GetPublicTickAsync(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/public/tick/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -184,7 +191,8 @@ namespace TTWebClient
         /// Get list of all available public feed level2 ticks
         /// </summary>
         /// <returns>List of all available public feed level2 ticks</returns>
-        public async Task<List<TTFeedTickLevel2>> GetPublicAllTicksLevel2()
+        public List<TTFeedTickLevel2> GetPublicAllTicksLevel2() { return ConvertToSync(() => GetPublicAllTicksLevel2Async().Result); }
+        public async Task<List<TTFeedTickLevel2>> GetPublicAllTicksLevel2Async()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/public/level2"))
@@ -201,7 +209,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="symbol">Symbol name</param>
         /// <returns>Public feed level2 tick with the given symbol name</returns>
-        public async Task<TTFeedTickLevel2> GetPublicTickLevel2(string symbol)
+        public TTFeedTickLevel2 GetPublicTickLevel2(string symbol) { return ConvertToSync(() => GetPublicTickLevel2Async(symbol).Result); }
+        public async Task<TTFeedTickLevel2> GetPublicTickLevel2Async(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/public/level2/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -221,7 +230,8 @@ namespace TTWebClient
         /// Get account information
         /// </summary>
         /// <returns>Account information</returns>
-        public async Task<TTAccount> GetAccount()
+        public TTAccount GetAccount() { return ConvertToSync(() => GetAccountAsync().Result); }
+        public async Task<TTAccount> GetAccountAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/account"))
@@ -237,7 +247,8 @@ namespace TTWebClient
         /// Get trade session information
         /// </summary>
         /// <returns>Trade session information</returns>
-        public async Task<TTTradeSession> GetTradeSession()
+        public TTTradeSession GetTradeSession() { return ConvertToSync(() => GetTradeSessionAsync().Result); }
+        public async Task<TTTradeSession> GetTradeSessionAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/tradesession"))
@@ -253,7 +264,8 @@ namespace TTWebClient
         /// Get list of all available currencies
         /// </summary>
         /// <returns>List of all available currencies</returns>
-        public async Task<List<TTCurrency>> GetAllCurrencies()
+        public List<TTCurrency> GetAllCurrencies() { return ConvertToSync(() => GetAllCurrenciesAsync().Result); }
+        public async Task<List<TTCurrency>> GetAllCurrenciesAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/currency"))
@@ -270,7 +282,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="currency">Currency name</param>
         /// <returns>Currency with the given name</returns>
-        public async Task<TTCurrency> GetCurrency(string currency)
+        public TTCurrency GetCurrency(string currency) { return ConvertToSync(() => GetCurrencyAsync(currency).Result); }
+        public async Task<TTCurrency> GetCurrencyAsync(string currency)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/currency/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(currency)))))
@@ -286,7 +299,8 @@ namespace TTWebClient
         /// Get list of all available symbols
         /// </summary>
         /// <returns>List of all available symbols</returns>
-        public async Task<List<TTSymbol>> GetAllSymbols()
+        public List<TTSymbol> GetAllSymbols() { return ConvertToSync(() => GetAllSymbolsAsync().Result); }
+        public async Task<List<TTSymbol>> GetAllSymbolsAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/symbol"))
@@ -303,7 +317,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="symbol">Symbol name</param>
         /// <returns>Symbol with the given name</returns>
-        public async Task<TTSymbol> GetSymbol(string symbol)
+        public TTSymbol GetSymbol(string symbol) { return ConvertToSync(() => GetSymbolAsync(symbol).Result); }
+        public async Task<TTSymbol> GetSymbolAsync(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/symbol/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -319,7 +334,8 @@ namespace TTWebClient
         /// Get list of all available feed tick 
         /// </summary>
         /// <returns>List of all available feed tick</returns>
-        public async Task<List<TTFeedTick>> GetAllTicks()
+        public List<TTFeedTick> GetAllTicks() { return ConvertToSync(() => GetAllTicksAsync().Result); }
+        public async Task<List<TTFeedTick>> GetAllTicksAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/tick"))
@@ -336,7 +352,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="symbol">Symbol name</param>
         /// <returns>Feed tick for the given symbol</returns>
-        public async Task<TTFeedTick> GetTick(string symbol)
+        public TTFeedTick GetTick(string symbol) { return ConvertToSync(() => GetTickAsync(symbol).Result); }
+        public async Task<TTFeedTick> GetTickAsync(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/tick/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -352,7 +369,8 @@ namespace TTWebClient
         /// Get list of all available feed level2 tick
         /// </summary>
         /// <returns>List of all available feed level2 tick</returns>
-        public async Task<List<TTFeedTickLevel2>> GetAllTicksLevel2()
+        public List<TTFeedTickLevel2> GetAllTicksLevel2() { return ConvertToSync(() => GetAllTicksLevel2Async().Result); }
+        public async Task<List<TTFeedTickLevel2>> GetAllTicksLevel2Async()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/level2"))
@@ -369,7 +387,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="symbol">Symbol name</param>
         /// <returns>Feed level2 tick for the given symbol</returns>
-        public async Task<TTFeedTickLevel2> GetTickLevel2(string symbol)
+        public TTFeedTickLevel2 GetTickLevel2(string symbol) { return ConvertToSync(() => GetTickLevel2Async(symbol).Result); }
+        public async Task<TTFeedTickLevel2> GetTickLevel2Async(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/level2/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -388,7 +407,8 @@ namespace TTWebClient
         /// **Works only for cash accounts!**
         /// </remarks>>                
         /// <returns>List of all cash account assets</returns>
-        public async Task<List<TTAsset>> GetAllAssets()
+        public List<TTAsset> GetAllAssets() { return ConvertToSync(() => GetAllAssetsAsync().Result); }
+        public async Task<List<TTAsset>> GetAllAssetsAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/asset"))
@@ -408,7 +428,8 @@ namespace TTWebClient
         /// </remarks>>                        
         /// <param name="currency">Currency name</param>
         /// <returns>Cash account asset for the given currency</returns>
-        public async Task<TTAsset> GetAsset(string currency)
+        public TTAsset GetAsset(string currency) { return ConvertToSync(() => GetAssetAsync(currency).Result); }
+        public async Task<TTAsset> GetAssetAsync(string currency)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/asset/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(currency)))))
@@ -427,7 +448,8 @@ namespace TTWebClient
         /// **Works only for net accounts!**
         /// </remarks>>                
         /// <returns>List of all available positions</returns>
-        public async Task<List<TTPosition>> GetAllPositions()
+        public List<TTPosition> GetAllPositions() { return ConvertToSync(() => GetAllPositionsAsync().Result); }
+        public async Task<List<TTPosition>> GetAllPositionsAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/position"))
@@ -447,7 +469,8 @@ namespace TTWebClient
         /// </remarks>>                        
         /// <param name="symbol">Symbol name</param>
         /// <returns>Position</returns>
-        public async Task<TTPosition> GetPosition(string symbol)
+        public TTPosition GetPosition(string symbol) { return ConvertToSync(() => GetPositionAsync(symbol).Result); }
+        public async Task<TTPosition> GetPositionAsync(string symbol)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/position/{0}", WebUtility.UrlEncode(WebUtility.UrlEncode(symbol)))))
@@ -463,7 +486,8 @@ namespace TTWebClient
         /// Get list of all available trades
         /// </summary>
         /// <returns>List of all available trades</returns>
-        public async Task<List<TTTrade>> GetAllTrades()
+        public List<TTTrade> GetAllTrades() { return ConvertToSync(() => GetAllTradesAsync().Result); }
+        public async Task<List<TTTrade>> GetAllTradesAsync()
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync("api/v1/trade"))
@@ -480,7 +504,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="tradeId">Trade Id</param>
         /// <returns>Trade</returns>
-        public async Task<TTTrade> GetTrade(long tradeId)
+        public TTTrade GetTrade(long tradeId) { return ConvertToSync(() => GetTradeAsync(tradeId).Result); }
+        public async Task<TTTrade> GetTradeAsync(long tradeId)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.GetAsync(string.Format("api/v1/trade/{0}", tradeId)))
@@ -511,7 +536,8 @@ namespace TTWebClient
         /// </remarks>        
         /// <param name="request">Create trade request</param>
         /// <returns>Created trade</returns>
-        public async Task<TTTrade> CreateTrade(TTTradeCreate request)
+        public TTTrade CreateTrade(TTTradeCreate request) { return ConvertToSync(() => CreateTradeAsync(request).Result); }
+        public async Task<TTTrade> CreateTradeAsync(TTTradeCreate request)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.PostAsync("api/v1/trade", request, new JilMediaTypeFormatter()))
@@ -537,7 +563,8 @@ namespace TTWebClient
         /// </remarks>        
         /// <param name="request">Modify trade request</param>
         /// <returns>Modified trade</returns>
-        public async Task<TTTrade> ModifyTrade(TTTradeModify request)
+        public TTTrade ModifyTrade(TTTradeModify request) { return ConvertToSync(() => ModifyTradeAsync(request).Result); }
+        public async Task<TTTrade> ModifyTradeAsync(TTTradeModify request)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.PutAsync("api/v1/trade", request, new JilMediaTypeFormatter()))
@@ -553,7 +580,8 @@ namespace TTWebClient
         /// Cancel existing pending trade
         /// </summary>
         /// <param name="tradeId">Trade Id to cancel</param>
-        public async Task CancelTrade(long tradeId)
+        public void CancelTrade(long tradeId) { ConvertToSync(() => CancelTradeAsync(tradeId).Wait()); }
+        public async Task CancelTradeAsync(long tradeId)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.DeleteAsync(string.Format("api/v1/trade?type=Cancel&id={0}", tradeId)))
@@ -568,7 +596,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="tradeId">Trade Id to close</param>
         /// <param name="amount">Amount to close (optional)</param>
-        public async Task CloseTrade(long tradeId, decimal? amount)
+        public void CloseTrade(long tradeId, decimal? amount) { ConvertToSync(() => CloseTradeAsync(tradeId, amount).Wait()); }
+        public async Task CloseTradeAsync(long tradeId, decimal? amount)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.DeleteAsync(amount.HasValue ? string.Format("api/v1/trade?type=Close&id={0}&amount={1}", tradeId, amount.Value) : string.Format("api/v1/trade?type=Close&id={0}", tradeId)))
@@ -583,7 +612,8 @@ namespace TTWebClient
         /// </summary>
         /// <param name="tradeId">Trade Id to close</param>
         /// <param name="byTradeId">By trade Id</param>
-        public async Task CloseByTrade(long tradeId, long byTradeId)
+        public void CloseByTrade(long tradeId, long byTradeId) { ConvertToSync(() => CloseByTradeAsync(tradeId, byTradeId).Wait()); }
+        public async Task CloseByTradeAsync(long tradeId, long byTradeId)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.DeleteAsync(string.Format("api/v1/trade?type=CloseBy&id={0}&byid={1}", tradeId, byTradeId)))
@@ -614,7 +644,8 @@ namespace TTWebClient
         /// </remarks>        
         /// <param name="request">Trade history request</param>
         /// <returns>Trade history report</returns>
-        public async Task<TTTradeHistoryReport> GetTradeHistory(TTTradeHistoryRequest request)
+        public TTTradeHistoryReport GetTradeHistory(TTTradeHistoryRequest request) { return ConvertToSync(() => GetTradeHistoryAsync(request).Result); }
+        public async Task<TTTradeHistoryReport> GetTradeHistoryAsync(TTTradeHistoryRequest request)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.PostAsync("api/v1/tradehistory", request, new JilMediaTypeFormatter()))
@@ -648,7 +679,8 @@ namespace TTWebClient
         /// <param name="tradeId">Trade Id</param>
         /// <param name="request">Trade history request</param>
         /// <returns>Trade history report</returns>
-        public async Task<TTTradeHistoryReport> GetTradeHistory(long tradeId, TTTradeHistoryRequest request)
+        public TTTradeHistoryReport GetTradeHistory(long tradeId, TTTradeHistoryRequest request) { return ConvertToSync(() => GetTradeHistoryAsync(tradeId, request).Result); }
+        public async Task<TTTradeHistoryReport> GetTradeHistoryAsync(long tradeId, TTTradeHistoryRequest request)
         {
             using (var client = CreateHttpClient())
             using (HttpResponseMessage response = await client.PostAsync(string.Format("api/v1/tradehistory/{0}", tradeId), request, new JilMediaTypeFormatter()))
@@ -683,6 +715,30 @@ namespace TTWebClient
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
+        }
+
+        private void ConvertToSync(Action method)
+        {
+            try
+            {
+                method();
+            }
+            catch (AggregateException ex)
+            {
+                throw ex.Flatten();
+            }
+        }
+
+        private TResult ConvertToSync<TResult>(Func<TResult> method)
+        {
+            try
+            {
+                return method();
+            }
+            catch (AggregateException ex)
+            {
+                throw ex.Flatten();
+            }
         }
 
         #endregion
