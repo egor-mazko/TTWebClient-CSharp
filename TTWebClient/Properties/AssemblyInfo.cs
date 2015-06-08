@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TTWebClient")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("C# client for TickTrader Web API")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SoftFX")]
-[assembly: AssemblyProduct("TTWebClient")]
+[assembly: AssemblyProduct("C# client for TickTrader Web API")]
 [assembly: AssemblyCopyright("Copyright © SoftFX 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
