@@ -3,7 +3,7 @@ C# Web API client for TickTrader
 
 ## Creating Web API client
 ```c#
-string webApiAddress = "tpdemo.fxopen.com";
+string webApiAddress = "https://tpdemo.fxopen.com:5020";
 string webApiId = "8bd43d1f-39a4-45cd-a876-6acc0586533d";
 string webApiKey = "qXhpBKFkndWWGYQ2";
 string webApiSecret = "dSccqQmtaPc2xB68GD6A7KBgpfRhHJkFe5AchGShbDGzyn8H8ThjPspCq6Yh8cTz";
