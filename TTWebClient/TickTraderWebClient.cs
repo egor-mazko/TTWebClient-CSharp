@@ -738,7 +738,7 @@ namespace TTWebClient
             {
                 AggregateException aggrex = ex.Flatten();
                 var inner = aggrex.InnerExceptions.FirstOrDefault();
-                throw inner ?? aggrex;
+                ExceptionDispatchInfo.Capture(inner ?? aggrex).Throw();
             }
         }
 
@@ -752,7 +752,8 @@ namespace TTWebClient
             {
                 AggregateException aggrex = ex.Flatten();
                 var inner = aggrex.InnerExceptions.FirstOrDefault();
-                throw inner ?? aggrex;
+                ExceptionDispatchInfo.Capture(inner ?? aggrex).Throw();
+                return default(TResult);
             }
         }
 
