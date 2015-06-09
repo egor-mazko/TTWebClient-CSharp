@@ -233,16 +233,9 @@ namespace TTWebClient
         /// </summary>
         /// <returns>Account information</returns>
         public TTAccount GetAccount() { return ConvertToSync(() => GetAccountAsync().Result); }
-        public async Task<TTAccount> GetAccountAsync()
+        public Task<TTAccount> GetAccountAsync()
         {
-            using (var client = CreatePrivateHttpClient())
-            using (HttpResponseMessage response = await client.GetAsync("api/v1/account"))
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
-
-                return await response.Content.ReadAsAsync<TTAccount>(_formatters);
-            }
+            return RequestPrivateAsync<TTAccount>("api/v1/account");
         }
 
         /// <summary>
@@ -250,16 +243,9 @@ namespace TTWebClient
         /// </summary>
         /// <returns>Trade session information</returns>
         public TTTradeSession GetTradeSession() { return ConvertToSync(() => GetTradeSessionAsync().Result); }
-        public async Task<TTTradeSession> GetTradeSessionAsync()
+        public Task<TTTradeSession> GetTradeSessionAsync()
         {
-            using (var client = CreatePrivateHttpClient())
-            using (HttpResponseMessage response = await client.GetAsync("api/v1/tradesession"))
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
-
-                return await response.Content.ReadAsAsync<TTTradeSession>(_formatters);
-            }
+            return RequestPrivateAsync<TTTradeSession>("api/v1/tradesession");
         }
 
         /// <summary>
@@ -754,6 +740,28 @@ namespace TTWebClient
                 var inner = aggrex.InnerExceptions.FirstOrDefault();
                 ExceptionDispatchInfo.Capture(inner ?? aggrex).Throw();
                 return default(TResult);
+            }
+        }
+
+        private Task<TResult> RequestPrivateAsync<TResult>(string method)
+        {
+            return RequestAsync<TResult>(method,CreatePrivateHttpClient);
+        }
+
+        private Task<TResult> RequestPublicAsync<TResult>(string method)
+        {
+            return RequestAsync<TResult>(method, CreatePrivateHttpClient);
+        }
+
+        private async Task<TResult> RequestAsync<TResult>(string method, Func<HttpClient> clientFactory)
+        {
+            using (var client = CreatePrivateHttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(method))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsAsync<TResult>(_formatters);
             }
         }
 
