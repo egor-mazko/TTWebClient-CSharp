@@ -23,6 +23,9 @@ namespace TTWebClient.Domain
 
         /// <summary>Tick Trader Server owner company</summary>
         public string PlatformCompany { get; set; }
+	
+        /// <summary>Tick Trader Server address</summary>
+        public string PlatformAddress { get; set; }
 
         /// <summary>Tick Trader Server timezone offset in hours from UTC</summary>
         public int PlatformTimezoneOffset { get; set; }

@@ -21,6 +21,7 @@ var client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiS
 TTTradeSession publictradesession = client.GetPublicTradeSession();
 Console.WriteLine("TickTrader name: {0}", publictradesession.PlatformName);
 Console.WriteLine("TickTrader company: {0}", publictradesession.PlatformCompany);
+Console.WriteLine("TickTrader address: {0}", publictradesession.PlatformAddress);
 Console.WriteLine("TickTrader timezone offset: {0}", publictradesession.PlatformTimezoneOffset);
 Console.WriteLine("TickTrader session status: {0}", publictradesession.SessionStatus);
 ```
