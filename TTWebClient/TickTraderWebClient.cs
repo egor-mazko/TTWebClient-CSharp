@@ -334,7 +334,7 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get trade by symbol
+        /// Get trade by Id
         /// </summary>
         /// <param name="tradeId">Trade Id</param>
         /// <returns>Trade</returns>
