@@ -27,6 +27,34 @@ namespace TTWebClient.Domain
     }
 
     /// <summary>
+    /// Commission value type
+    /// </summary>
+    public enum TTCommissionValueType
+    {
+        Money,
+        Points,
+        Percentage
+    }
+
+    /// <summary>
+    /// Commission charge type
+    /// </summary>
+    public enum TTCommissionChargeType
+    {
+        PerLot, 
+        PerDeal 
+    }
+
+    /// <summary>
+    /// Commission charge method
+    /// </summary>
+    public enum TTCommissionChargeMethod
+    {
+        OneWay,
+        RoundTurn
+    }
+
+    /// <summary>
     /// Symbol information
     /// </summary>
     public class TTSymbol
@@ -38,7 +66,7 @@ namespace TTWebClient.Domain
         public int Precision { get; set; }
 
         /// <summary>Is trade allowed for the symbol?</summary>
-        public bool TradeIsAllowed { get; set; }
+        public bool IsTradeAllowed { get; set; }
 
         /// <summary>Margin calculation mode</summary>
         public TTMarginCalculationModes MarginMode { get; set; }
@@ -78,5 +106,29 @@ namespace TTWebClient.Domain
 
         /// <summary>Long swap size</summary>
         public float SwapSizeLong { get; set; }
+	
+        /// <summary>Minimal trade amount</summary>
+        public decimal MinTradeAmount { get; set; }
+
+        /// <summary>Maximal trade amount</summary>
+        public decimal MaxTradeAmount { get; set; }
+
+        /// <summary>Trade amount step</summary>
+        public decimal TradeAmountStep { get; set; }
+
+        /// <summary>Commission type</summary>
+        public TTCommissionValueType CommissionType { get; set; }
+
+        /// <summary>Commission charge type</summary>
+        public TTCommissionChargeType CommissionChargeType { get; set; }
+
+        /// <summary>Commission charge method</summary>
+        public TTCommissionChargeMethod CommissionChargeMethod { get; set; }
+
+        /// <summary>Commission</summary>
+        public decimal Commission { get; set; }
+
+        /// <summary>Limits commission</summary>
+        public decimal LimitsCommission { get; set; }	
     }
 }

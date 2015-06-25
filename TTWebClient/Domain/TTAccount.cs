@@ -46,29 +46,32 @@ namespace TTWebClient.Domain
 
         /// <summary>Is account in valid state?</summary>
         public bool IsValid { get; set; }
+	
+        /// <summary>Is Web API enabled for account?</summary>
+        public bool IsWebApiEnabled { get; set; }
 
         /// <summary>Leverage</summary>
-        public int Leverage { get; set; }
+        public int? Leverage { get; set; }
 
         /// <summary>Balance amount</summary>
-        public decimal Balance { get; set; }
+        public decimal? Balance { get; set; }
 
         /// <summary>Balance currency</summary>
         public string BalanceCurrency { get; set; }
 
         /// <summary>Equity</summary>
-        public decimal Equity { get; set; }
+        public decimal? Equity { get; set; }
 
         /// <summary>Margin</summary>
-        public decimal Margin { get; set; }
+        public decimal? Margin { get; set; }
 
         /// <summary>Margin level</summary>
-        public decimal MarginLevel { get; set; }
+        public decimal? MarginLevel { get; set; }
 
         /// <summary>Margin call level</summary>
-        public int MarginCallLevel { get; set; }
+        public int? MarginCallLevel { get; set; }
 
         /// <summary>Stop out level</summary>
-        public int StopOutLevel { get; set; }
+        public int? StopOutLevel { get; set; }
     }
 }
