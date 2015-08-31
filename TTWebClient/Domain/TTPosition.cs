@@ -5,6 +5,9 @@
     /// </summary>
     public class TTPosition
     {
+        /// <summary>Position Id</summary>
+        public long Id { get; set; }	
+
         /// <summary>Position symbol</summary>
         public string Symbol { get; set; }
 

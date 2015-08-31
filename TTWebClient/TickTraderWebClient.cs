@@ -310,17 +310,17 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get position by symbol
+        /// Get position by Id or symbol name
         /// </summary>
         /// <remarks>
         /// **Works only for net accounts!**
         /// </remarks>>                        
-        /// <param name="symbol">Symbol name</param>
+        /// <param name="id">Position Id or symbol name</param>
         /// <returns>Position</returns>
-        public TTPosition GetPosition(string symbol) { return ConvertToSync(() => GetPositionAsync(symbol).Result); }
-        public Task<TTPosition> GetPositionAsync(string symbol)
+        public TTPosition GetPosition(string id) { return ConvertToSync(() => GetPositionAsync(id).Result); }
+        public Task<TTPosition> GetPositionAsync(string id)
         {
-            return PrivateHttpGetAsync<TTPosition>(string.Format("api/v1/position/{0}", UrlEncode(symbol)));
+            return PrivateHttpGetAsync<TTPosition>(string.Format("api/v1/position/{0}", UrlEncode(id)));
         }
 
         /// <summary>
