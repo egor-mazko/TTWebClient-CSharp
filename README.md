@@ -2,11 +2,11 @@
 C# Web API client for TickTrader
 
 ## TickTrader Web API interactive documentation
-https://ttdemo.soft-fx.com:8443/api/doc/index
+https://ttdemowebapi.soft-fx.com:8443/api/doc/index
 
 ## Creating Web API client
 ```c#
-string webApiAddress = "https://ttdemo.soft-fx.com:8443";
+string webApiAddress = "https://ttdemowebapi.soft-fx.com:8443";
 string webApiId = "1de621ca-e686-4ee2-92a5-45c87b4b3fe5";
 string webApiKey = "czNhCcnK6ydePCHZ";
 string webApiSecret = "J6Jxc2xPr8JyNpWtyEaCPYpkpJpsSQ38xb9AZNxBAGdtQrNDhQwf9mkWQygCKd6K";
