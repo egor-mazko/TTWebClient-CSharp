@@ -88,14 +88,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get public currency by name
+        /// Get filtered list of public currencies
         /// </summary>
-        /// <param name="currency">Currency name</param>
-        /// <returns>Public currency with the given name</returns>
-        public TTCurrency GetPublicCurrency(string currency) { return ConvertToSync(() => GetPublicCurrencyAsync(currency).Result); }
-        public Task<TTCurrency> GetPublicCurrencyAsync(string currency)
+        /// <param name="filter">Currency names separated by space character</param>
+        /// <returns>List of filtered public currencies</returns>
+        public List<TTCurrency> GetPublicCurrency(string filter) { return ConvertToSync(() => GetPublicCurrencyAsync(filter).Result); }
+        public Task<List<TTCurrency>> GetPublicCurrencyAsync(string filter)
         {
-            return PublicHttpGetAsync<TTCurrency>(string.Format("api/v1/public/currency/{0}", UrlEncode(currency)));
+            return PublicHttpGetAsync<List<TTCurrency>>(string.Format("api/v1/public/currency/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -109,14 +109,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get public symbol by name
+        /// Get filtered list of public symbols
         /// </summary>
-        /// <param name="symbol">Symbol name</param>
-        /// <returns>Public symbol with the given name</returns>
-        public TTSymbol GetPublicSymbol(string symbol) { return ConvertToSync(() => GetPublicSymbolAsync(symbol).Result); }
-        public Task<TTSymbol> GetPublicSymbolAsync(string symbol)
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public symbols</returns>
+        public List<TTSymbol> GetPublicSymbol(string filter) { return ConvertToSync(() => GetPublicSymbolAsync(filter).Result); }
+        public Task<List<TTSymbol>> GetPublicSymbolAsync(string filter)
         {
-            return PublicHttpGetAsync<TTSymbol>(string.Format("api/v1/public/symbol/{0}", UrlEncode(symbol)));
+            return PublicHttpGetAsync<List<TTSymbol>>(string.Format("api/v1/public/symbol/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -130,14 +130,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get public feed tick by symbol name
+        /// Get filtered list of public feed ticks
         /// </summary>
-        /// <param name="symbol">Symbol name</param>
-        /// <returns>Public feed tick with the given symbol name</returns>
-        public TTFeedTick GetPublicTick(string symbol) { return ConvertToSync(() => GetPublicTickAsync(symbol).Result); }
-        public Task<TTFeedTick> GetPublicTickAsync(string symbol)
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public feed ticks</returns>
+        public List<TTFeedTick> GetPublicTick(string symbol) { return ConvertToSync(() => GetPublicTickAsync(symbol).Result); }
+        public Task<List<TTFeedTick>> GetPublicTickAsync(string symbol)
         {
-            return PublicHttpGetAsync<TTFeedTick>(string.Format("api/v1/public/tick/{0}", UrlEncode(symbol)));
+            return PublicHttpGetAsync<List<TTFeedTick>>(string.Format("api/v1/public/tick/{0}", UrlEncode(symbol)));
         }
 
         /// <summary>
@@ -151,14 +151,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get public feed level2 tick by symbol name
+        /// Get filtered list of public feed level2 ticks
         /// </summary>
-        /// <param name="symbol">Symbol name</param>
-        /// <returns>Public feed level2 tick with the given symbol name</returns>
-        public TTFeedTickLevel2 GetPublicTickLevel2(string symbol) { return ConvertToSync(() => GetPublicTickLevel2Async(symbol).Result); }
-        public Task<TTFeedTickLevel2> GetPublicTickLevel2Async(string symbol)
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public feed level2 ticks</returns>
+        public List<TTFeedTickLevel2> GetPublicTickLevel2(string filter) { return ConvertToSync(() => GetPublicTickLevel2Async(filter).Result); }
+        public Task<List<TTFeedTickLevel2>> GetPublicTickLevel2Async(string filter)
         {
-            return PublicHttpGetAsync<TTFeedTickLevel2>(string.Format("api/v1/public/level2/{0}", UrlEncode(symbol)));
+            return PublicHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v1/public/level2/{0}", UrlEncode(filter)));
         }
 
         #endregion
@@ -196,14 +196,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get currency by name
+        /// Get filtered list of currencies
         /// </summary>
-        /// <param name="currency">Currency name</param>
-        /// <returns>Currency with the given name</returns>
-        public TTCurrency GetCurrency(string currency) { return ConvertToSync(() => GetCurrencyAsync(currency).Result); }
-        public Task<TTCurrency> GetCurrencyAsync(string currency)
+        /// <param name="filter">Currency names separated by space character</param>
+        /// <returns>List of filtered public currencies</returns>
+        public List<TTCurrency> GetCurrency(string filter) { return ConvertToSync(() => GetCurrencyAsync(filter).Result); }
+        public Task<List<TTCurrency>> GetCurrencyAsync(string filter)
         {
-            return PrivateHttpGetAsync<TTCurrency>(string.Format("api/v1/currency/{0}", UrlEncode(currency)));
+            return PrivateHttpGetAsync<List<TTCurrency>>(string.Format("api/v1/currency/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -217,14 +217,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get symbol by name
+        /// Get filtered list of symbols
         /// </summary>
-        /// <param name="symbol">Symbol name</param>
-        /// <returns>Symbol with the given name</returns>
-        public TTSymbol GetSymbol(string symbol) { return ConvertToSync(() => GetSymbolAsync(symbol).Result); }
-        public Task<TTSymbol> GetSymbolAsync(string symbol)
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public symbols</returns>
+        public List<TTSymbol> GetSymbol(string filter) { return ConvertToSync(() => GetSymbolAsync(filter).Result); }
+        public Task<List<TTSymbol>> GetSymbolAsync(string filter)
         {
-            return PrivateHttpGetAsync<TTSymbol>(string.Format("api/v1/symbol/{0}", UrlEncode(symbol)));
+            return PrivateHttpGetAsync<List<TTSymbol>>(string.Format("api/v1/symbol/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -238,14 +238,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get feed tick by symbol name
+        /// Get filtered list of feed ticks
         /// </summary>
-        /// <param name="symbol">Symbol name</param>
-        /// <returns>Feed tick for the given symbol</returns>
-        public TTFeedTick GetTick(string symbol) { return ConvertToSync(() => GetTickAsync(symbol).Result); }
-        public Task<TTFeedTick> GetTickAsync(string symbol)
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public feed ticks</returns>
+        public List<TTFeedTick> GetTick(string filter) { return ConvertToSync(() => GetTickAsync(filter).Result); }
+        public Task<List<TTFeedTick>> GetTickAsync(string filter)
         {
-            return PrivateHttpGetAsync<TTFeedTick>(string.Format("api/v1/tick/{0}", UrlEncode(symbol)));
+            return PrivateHttpGetAsync<List<TTFeedTick>>(string.Format("api/v1/tick/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -259,14 +259,14 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get feed level2 tick by symbol name
+        /// Get filtered list of feed level2 ticks
         /// </summary>
-        /// <param name="symbol">Symbol name</param>
-        /// <returns>Feed level2 tick for the given symbol</returns>
-        public TTFeedTickLevel2 GetTickLevel2(string symbol) { return ConvertToSync(() => GetTickLevel2Async(symbol).Result); }
-        public Task<TTFeedTickLevel2> GetTickLevel2Async(string symbol)
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public feed level2 ticks</returns>
+        public List<TTFeedTickLevel2> GetTickLevel2(string filter) { return ConvertToSync(() => GetTickLevel2Async(filter).Result); }
+        public Task<List<TTFeedTickLevel2>> GetTickLevel2Async(string filter)
         {
-            return PrivateHttpGetAsync<TTFeedTickLevel2>(string.Format("api/v1/level2/{0}", UrlEncode(symbol)));
+            return PrivateHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v1/level2/{0}", UrlEncode(filter)));
         }
 
         /// <summary>

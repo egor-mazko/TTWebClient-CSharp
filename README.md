@@ -36,7 +36,7 @@ List<TTCurrency> publicCurrencies = client.GetPublicAllCurrencies();
 foreach (var c in publicCurrencies)
     Console.WriteLine("Currency: " + c.Name);
 
-TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name);
+TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name).FirstOrDefault();
 Console.WriteLine("{0} currency precision: {1}", publicCurrency.Name, publicCurrency.Precision);
 ```
 
@@ -47,7 +47,7 @@ List<TTSymbol> publicSymbols = client.GetPublicAllSymbols();
 foreach (var s in publicSymbols)
     Console.WriteLine("Symbol: " + s.Symbol);
 
-TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol);
+TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol).FirstOrDefault();
 Console.WriteLine("{0} symbol precision: {1}", publicSymbol.Symbol, publicSymbol.Precision);
 ```
 
@@ -58,7 +58,7 @@ List<TTFeedTick> publicTicks = client.GetPublicAllTicks();
 foreach (var t in publicTicks)
     Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
 
-TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol);
+TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol).FirstOrDefault();
 Console.WriteLine("{0} tick timestamp: {1}", publicTick.Symbol, publicTick.Timestamp);
 ```
 
@@ -69,7 +69,7 @@ List<TTFeedTickLevel2> publicTicksLevel2 = client.GetPublicAllTicksLevel2();
 foreach (var t in publicTicksLevel2)
     Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
-TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol);
+TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol).FirstOrDefault();
 Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
 ```
 

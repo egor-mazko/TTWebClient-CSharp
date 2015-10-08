@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TTWebClient;
 using TTWebClient.Domain;
 
@@ -81,8 +82,9 @@ namespace TTWebClientSample
             foreach (var c in publicCurrencies)
                 Console.WriteLine("Currency: " + c.Name);
 
-            TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name);
-            Console.WriteLine("{0} currency precision: {1}", publicCurrency.Name, publicCurrency.Precision);
+            TTCurrency publicCurrency = client.GetPublicCurrency(publicCurrencies[0].Name).FirstOrDefault();
+            if (publicCurrency != null)
+                Console.WriteLine("{0} currency precision: {1}", publicCurrency.Name, publicCurrency.Precision);
         }
 
         public static void GetPublicSymbols(TickTraderWebClient client)
@@ -92,8 +94,9 @@ namespace TTWebClientSample
             foreach (var s in publicSymbols)
                 Console.WriteLine("Symbol: " + s.Symbol);
 
-            TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol);
-            Console.WriteLine("{0} symbol precision: {1}", publicSymbol.Symbol, publicSymbol.Precision);
+            TTSymbol publicSymbol = client.GetPublicSymbol(publicSymbols[0].Symbol).FirstOrDefault();
+            if (publicSymbol != null)
+                Console.WriteLine("{0} symbol precision: {1}", publicSymbol.Symbol, publicSymbol.Precision);
         }
 
         public static void GetPublicTicks(TickTraderWebClient client)
@@ -103,8 +106,9 @@ namespace TTWebClientSample
             foreach (var t in publicTicks)
                 Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
 
-            TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol);
-            Console.WriteLine("{0} tick timestamp: {1}", publicTick.Symbol, publicTick.Timestamp);
+            TTFeedTick publicTick = client.GetPublicTick(publicTicks[0].Symbol).FirstOrDefault();
+            if (publicTick != null)
+                Console.WriteLine("{0} tick timestamp: {1}", publicTick.Symbol, publicTick.Timestamp);
         }
 
         public static void GetPublicTicksLevel2(TickTraderWebClient client)
@@ -114,8 +118,9 @@ namespace TTWebClientSample
             foreach (var t in publicTicksLevel2)
                 Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
-            TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol);
-            Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
+            TTFeedTickLevel2 publicTickLevel2 = client.GetPublicTickLevel2(publicTicksLevel2[0].Symbol).FirstOrDefault();
+            if (publicTickLevel2 != null)
+                Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
         }
 
         #endregion
@@ -153,8 +158,9 @@ namespace TTWebClientSample
             foreach (var c in currencies)
                 Console.WriteLine("Currency: " + c.Name);
 
-            TTCurrency currency = client.GetCurrency(currencies[0].Name);
-            Console.WriteLine("{0} currency precision: {1}", currency.Name, currency.Precision);
+            TTCurrency currency = client.GetCurrency(currencies[0].Name).FirstOrDefault();
+            if (currency != null)
+                Console.WriteLine("{0} currency precision: {1}", currency.Name, currency.Precision);
         }
 
         public static void GetSymbols(TickTraderWebClient client)
@@ -164,8 +170,9 @@ namespace TTWebClientSample
             foreach (var s in symbols)
                 Console.WriteLine("Symbol: " + s.Symbol);
 
-            TTSymbol symbol = client.GetSymbol(symbols[0].Symbol);
-            Console.WriteLine("{0} symbol precision: {1}", symbol.Symbol, symbol.Precision);
+            TTSymbol symbol = client.GetSymbol(symbols[0].Symbol).FirstOrDefault();
+            if (symbol != null)
+                Console.WriteLine("{0} symbol precision: {1}", symbol.Symbol, symbol.Precision);
         }
 
         public static void GetTicks(TickTraderWebClient client)
@@ -175,8 +182,9 @@ namespace TTWebClientSample
             foreach (var t in ticks)
                 Console.WriteLine("{0} tick: {1}, {2}", t.Symbol, t.BestBid.Price, t.BestAsk.Price);
 
-            TTFeedTick tick = client.GetTick(ticks[0].Symbol);
-            Console.WriteLine("{0} tick timestamp: {1}", tick.Symbol, tick.Timestamp);
+            TTFeedTick tick = client.GetTick(ticks[0].Symbol).FirstOrDefault();
+            if (tick != null)
+                Console.WriteLine("{0} tick timestamp: {1}", tick.Symbol, tick.Timestamp);
         }
 
         public static void GetTicksLevel2(TickTraderWebClient client)
@@ -186,8 +194,9 @@ namespace TTWebClientSample
             foreach (var t in ticksLevel2)
                 Console.WriteLine("{0} level2 book depth: {1}", t.Symbol, Math.Max(t.Bids.Count, t.Asks.Count));
 
-            TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol);
-            Console.WriteLine("{0} level2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
+            TTFeedTickLevel2 tickLevel2 = client.GetTickLevel2(ticksLevel2[0].Symbol).FirstOrDefault();
+            if (tickLevel2 != null)
+                Console.WriteLine("{0} level2 book depth: {1}", tickLevel2.Symbol, Math.Max(tickLevel2.Bids.Count, tickLevel2.Asks.Count));
         }
 
         #endregion
