@@ -499,7 +499,7 @@ namespace TTWebClient
 
         private HttpClient CreatePublicHttpClient()
         {
-            var client = new HttpClient();
+            var client = new HttpClient(new PublicContentHandler());
             client.BaseAddress = new Uri(_webApiAddress);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -615,6 +615,14 @@ namespace TTWebClient
         #endregion
 
         #region HMAC Client Handler
+
+        public class PublicContentHandler : HttpClientHandler
+        {
+            public PublicContentHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+        }
 
         public class RequestContentHMACHandler : HttpClientHandler
         {
