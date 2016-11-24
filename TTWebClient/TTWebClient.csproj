@@ -66,6 +66,7 @@
     <Compile Include="Domain\TTHistoryRequest.cs" />
     <Compile Include="Domain\TTPosition.cs" />
     <Compile Include="Domain\TTSymbol.cs" />
+    <Compile Include="Domain\TTTicker.cs" />
     <Compile Include="Domain\TTTrade.cs" />
     <Compile Include="Domain\TTTradeCreate.cs" />
     <Compile Include="Domain\TTTradeModify.cs" />

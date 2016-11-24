@@ -123,6 +123,18 @@ namespace TTWebClientSample
                 Console.WriteLine("{0} level2 book depth: {1}", publicTickLevel2.Symbol, Math.Max(publicTickLevel2.Bids.Count, publicTickLevel2.Asks.Count));
         }
 
+        public static void GetPublicTickers(TickTraderWebClient client)
+        {
+            // Public symbol statistics
+            List<TTTicker> publicTickers = client.GetPublicAllTickers();
+            foreach (var t in publicTickers)
+                Console.WriteLine("{0} last buy/sell prices : {1} / {2}", t.Symbol, t.LastBuyPrice, t.LastSellPrice);
+
+            TTTicker publicTicker = client.GetPublicTicker(publicTickers[0].Symbol).FirstOrDefault();
+            if (publicTicker != null)
+                Console.WriteLine("{0} best bid/ask: {1} / {2}", publicTicker.Symbol, publicTicker.BestBid, publicTicker.BestAsk);
+        }
+
         #endregion
 
         #region Account information

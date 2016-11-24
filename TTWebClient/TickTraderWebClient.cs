@@ -161,6 +161,27 @@ namespace TTWebClient
             return PublicHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v1/public/level2/{0}", UrlEncode(filter)));
         }
 
+        /// <summary>
+        /// Get list of all available public symbol statistics
+        /// </summary>
+        /// <returns>List of all available public symbol statistics</returns>
+        public List<TTTicker> GetPublicAllTickers() { return ConvertToSync(() => GetPublicAllTickersAsync().Result); }
+        public Task<List<TTTicker>> GetPublicAllTickersAsync()
+        {
+            return PublicHttpGetAsync<List<TTTicker>>("api/v1/public/ticker");
+        }
+
+        /// <summary>
+        /// Get filtered list of public symbol statistics
+        /// </summary>
+        /// <param name="filter">Symbols names separated by space character</param>
+        /// <returns>List of filtered public symbol statistics</returns>
+        public List<TTTicker> GetPublicTicker(string filter) { return ConvertToSync(() => GetPublicTickerAsync(filter).Result); }
+        public Task<List<TTTicker>> GetPublicTickerAsync(string filter)
+        {
+            return PublicHttpGetAsync<List<TTTicker>>(string.Format("api/v1/public/ticker/{0}", UrlEncode(filter)));
+        }
+
         #endregion
 
         #region Web API Methods
