@@ -414,10 +414,10 @@ namespace TTWebClient
         /// Cancel existing pending trade
         /// </summary>
         /// <param name="tradeId">Trade Id to cancel</param>
-        public void CancelTrade(long tradeId) { ConvertToSync(() => CancelTradeAsync(tradeId).Wait()); }
-        public Task CancelTradeAsync(long tradeId)
+        public TTTradeDelete CancelTrade(long tradeId) { return ConvertToSync(() => CancelTradeAsync(tradeId).Result); }
+        public Task<TTTradeDelete> CancelTradeAsync(long tradeId)
         {
-            return PrivateHttpDeleteAsync(string.Format("api/v1/trade?type=Cancel&id={0}", tradeId));
+            return PrivateHttpDeleteAsync<TTTradeDelete>(string.Format("api/v1/trade?type=Cancel&id={0}", tradeId));
         }
 
         /// <summary>
@@ -425,10 +425,10 @@ namespace TTWebClient
         /// </summary>
         /// <param name="tradeId">Trade Id to close</param>
         /// <param name="amount">Amount to close (optional)</param>
-        public void CloseTrade(long tradeId, decimal? amount) { ConvertToSync(() => CloseTradeAsync(tradeId, amount).Wait()); }
-        public Task CloseTradeAsync(long tradeId, decimal? amount)
+        public TTTradeDelete CloseTrade(long tradeId, decimal? amount) { return ConvertToSync(() => CloseTradeAsync(tradeId, amount).Result); }
+        public Task<TTTradeDelete> CloseTradeAsync(long tradeId, decimal? amount)
         {
-            return PrivateHttpDeleteAsync(amount.HasValue ? string.Format("api/v1/trade?type=Close&id={0}&amount={1}", tradeId, amount.Value) : string.Format("api/v1/trade?type=Close&id={0}", tradeId));
+            return PrivateHttpDeleteAsync<TTTradeDelete>(amount.HasValue ? string.Format("api/v1/trade?type=Close&id={0}&amount={1}", tradeId, amount.Value) : string.Format("api/v1/trade?type=Close&id={0}", tradeId));
         }
 
         /// <summary>
@@ -436,10 +436,10 @@ namespace TTWebClient
         /// </summary>
         /// <param name="tradeId">Trade Id to close</param>
         /// <param name="byTradeId">By trade Id</param>
-        public void CloseByTrade(long tradeId, long byTradeId) { ConvertToSync(() => CloseByTradeAsync(tradeId, byTradeId).Wait()); }
-        public Task CloseByTradeAsync(long tradeId, long byTradeId)
+        public TTTradeDelete CloseByTrade(long tradeId, long byTradeId) { return ConvertToSync(() => CloseByTradeAsync(tradeId, byTradeId).Result); }
+        public Task<TTTradeDelete> CloseByTradeAsync(long tradeId, long byTradeId)
         {
-            return PrivateHttpDeleteAsync(string.Format("api/v1/trade?type=CloseBy&id={0}&byid={1}", tradeId, byTradeId));
+            return PrivateHttpDeleteAsync<TTTradeDelete>(string.Format("api/v1/trade?type=CloseBy&id={0}&byid={1}", tradeId, byTradeId));
         }
 
         /// <summary>
@@ -592,18 +592,20 @@ namespace TTWebClient
             }
         }
 
-        private Task PrivateHttpDeleteAsync(string method)
+        private Task<TResult> PrivateHttpDeleteAsync<TResult>(string method)
         {
-            return HttpDeleteAsync(CreatePrivateHttpClient, method);
+            return HttpDeleteAsync<TResult>(CreatePrivateHttpClient, method);
         }
 
-        private async Task HttpDeleteAsync(Func<HttpClient> clientFactory, string method)
+        private async Task<TResult> HttpDeleteAsync<TResult>(Func<HttpClient> clientFactory, string method)
         {
             using (var client = clientFactory())
             using (HttpResponseMessage response = await client.DeleteAsync(method))
             {
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsAsync<TResult>(_formatters);
             }
         }
 
