@@ -68,7 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClientModel.cs" />
+    <Compile Include="ClientView.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CredsDialog.xaml.cs">
       <DependentUpon>CredsDialog.xaml</DependentUpon>

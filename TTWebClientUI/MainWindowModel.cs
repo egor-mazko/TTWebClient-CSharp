@@ -25,12 +25,19 @@ namespace TTWebClientUI
         //private int? _depth;
         //private int? _sleep;
         private string _error;
+        private ClientView _clientView;
 
         public Command StartCommand { get; private set; }
         public Command StopCommand { get; private set; }
         public Command AddCommand { get; private set; }
         public Command EditCommand { get; private set; }
         public Command DeleteCommand { get; private set; }
+
+        public Command PublicTradeSessionCommand { get; private set; }
+        public Command PublicCurrenciesCommand { get; private set; }
+        public Command PublicSymbolsCommand { get; private set; }
+        public Command PublicTicksCommand { get; private set; }
+        public Command PublicTicksL2Command { get; private set; }
 
         public ObservableCollection<CredsModel> CredsList { get; private set; }
 
@@ -43,6 +50,8 @@ namespace TTWebClientUI
                 OnPropertyChanged();
                 Validate();
                 UpdateCredsButtonState();
+                if (value != null)
+                    ClientView = new ClientView(value);
             }
         }
 
@@ -70,6 +79,16 @@ namespace TTWebClientUI
             }
         }
 
+        public ClientView ClientView
+        {
+            get { return _clientView; }
+            set
+            {
+                _clientView = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainWindowModel(IWndService wndService)
         {
             _service = wndService;
@@ -78,6 +97,12 @@ namespace TTWebClientUI
             AddCommand = new Command(AddCreds);
             DeleteCommand = new Command(DeleteCreds);
             EditCommand = new Command(EditCreds);
+
+            PublicTradeSessionCommand = new Command(async () => await ClientView.GetPublicTradeSession());
+            PublicCurrenciesCommand = new Command(async () => await ClientView.GetPublicCurrencies());
+            PublicSymbolsCommand = new Command(async () => await ClientView.GetPublicSymbols());
+            PublicTicksCommand = new Command(async () => await ClientView.GetPublicTicks());
+            PublicTicksL2Command = new Command(async () => await ClientView.GetPublicTicksLevel2());
 
             CredsList = new ObservableCollection<CredsModel>();
 
@@ -112,30 +137,30 @@ namespace TTWebClientUI
             try
             {
                 // Create instance of the TickTrader Web API client
-                var clientModel = new ClientModel(_selectedCreds.WebApiAddress, _selectedCreds.WebApiId, _selectedCreds.WebApiKey, _selectedCreds.WebApiSecret);
+                //ClientView = new ClientView(_selectedCreds.WebApiAddress, _selectedCreds.WebApiId, _selectedCreds.WebApiKey, _selectedCreds.WebApiSecret);
                 //---Public Web API methods---
-                clientModel.GetPublicTradeSession();
+                //await Model.GetPublicTradeSession();
 
-                clientModel.GetPublicCurrencies();
-                clientModel.GetPublicSymbols();
-                clientModel.GetPublicTicks();
-                clientModel.GetPublicTicksLevel2();
+                //await _model.GetPublicCurrencies();
+                //await _model.GetPublicSymbols();
+                //await _model.GetPublicTicks();
+                //await _model.GetPublicTicksLevel2();
 
                 //--- Web API client methods ---
-                clientModel.GetAccount();
-                clientModel.GetTradeSession();
+                //await _model.GetAccount();
+                //await _model.GetTradeSession();
 
-                clientModel.GetCurrencies();
-                clientModel.GetSymbols();
-                clientModel.GetTicks();
-                clientModel.GetTicksLevel2();
+                //await _model.GetCurrencies();
+                //await _model.GetSymbols();
+                //await _model.GetTicks();
+                //await _model.GetTicksLevel2();
 
-                clientModel.GetAssets();
-                clientModel.GetPositions();
-                clientModel.GetTrades();
-                clientModel.GetTradeHistory();
+                //await _model.GetAssets();
+                //await _model.GetPositions();
+                //await _model.GetTrades();
+                //await _model.GetTradeHistory();
 
-                clientModel.LimitOrder();
+                //await _model.LimitOrder();
             }
             catch (Exception ex)
             {
@@ -146,19 +171,16 @@ namespace TTWebClientUI
 
         private async void Stop()
         {
-            //if (isStopping)
-            //    return;
+            if (_isStopping)
+                return;
 
-            //isStopping = true;
-            //UpdateButtonState();
+            _isStopping = true;
+            UpdateButtonState();
 
             //await load.Stop();
 
-            //isStopping = false;
-            //IsRunning = false;
-
-            //if (closeEvent != null)
-            //    closeEvent.SetResult(null);
+            _isStopping = false;
+            IsRunning = false;
         }
 
         private void AddCreds()
