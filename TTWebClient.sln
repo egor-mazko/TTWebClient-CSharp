@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWebClient", "TTWebClient\TTWebClient.csproj", "{C5E70EF4-CE93-4943-B43A-2F2A9698F889}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWebClientSample", "TTWebClientSample\TTWebClientSample.csproj", "{3B2769E2-D869-4D7A-8D77-ABF96DAC47AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWebClientRobot", "TTWebClientRobot\TTWebClientRobot.csproj", "{87516E34-98C5-4201-AFC3-97282F8964B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWebClientUI", "TTWebClientUI\TTWebClientUI.csproj", "{78557003-2486-4B81-9A82-41B4E059E070}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{87516E34-98C5-4201-AFC3-97282F8964B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87516E34-98C5-4201-AFC3-97282F8964B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87516E34-98C5-4201-AFC3-97282F8964B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78557003-2486-4B81-9A82-41B4E059E070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78557003-2486-4B81-9A82-41B4E059E070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78557003-2486-4B81-9A82-41B4E059E070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78557003-2486-4B81-9A82-41B4E059E070}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
