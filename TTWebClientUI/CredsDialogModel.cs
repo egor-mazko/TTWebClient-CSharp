@@ -94,10 +94,10 @@ namespace TTWebClientUI
 
         private void Validate()
         {
-            bool isValid = ValidateStringInput(_server) 
-                && ValidateStringInput(_login)
-                && ValidateStringInput(_password)
-                && ValidateStringInput(_secret);
+            bool isValid = ValidateStringInput(_server); 
+                //&& ValidateStringInput(_login)
+                //&& ValidateStringInput(_password)
+                //&& ValidateStringInput(_secret);
 
             CmdOk.IsEnabled = isValid;
         }
@@ -118,7 +118,7 @@ namespace TTWebClientUI
                 return null;
 
             var parts = credsStr.Split(' ');
-            if (parts.Length < 3)
+            if (parts.Length < 4)
                 return null;
 
             return new CredsModel()
@@ -136,6 +136,10 @@ namespace TTWebClientUI
         public string WebApiKey { get; set; }
         public string WebApiSecret { get; set; }
         public string Account { get; set; }
+
+        public bool IsPublicOnly =>
+            !string.IsNullOrEmpty(WebApiAddress) &&
+            (string.IsNullOrEmpty(WebApiId) || string.IsNullOrEmpty(WebApiKey) || string.IsNullOrEmpty(WebApiSecret));
 
         public override int GetHashCode()
         {

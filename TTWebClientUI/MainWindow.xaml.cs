@@ -38,5 +38,11 @@ namespace TTWebClientUI
 
             dlg.ShowDialog();
         }
+
+        private void TabItemPrivate_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool) e.NewValue == false)
+                TabControl.SelectedItem = TabItemPublic;
+        }
     }
 }
