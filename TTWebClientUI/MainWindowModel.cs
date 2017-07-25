@@ -33,12 +33,6 @@ namespace TTWebClientUI
         public Command EditCommand { get; private set; }
         public Command DeleteCommand { get; private set; }
 
-        public Command PublicTradeSessionCommand { get; private set; }
-        public Command PublicCurrenciesCommand { get; private set; }
-        public Command PublicSymbolsCommand { get; private set; }
-        public Command PublicTicksCommand { get; private set; }
-        public Command PublicTicksL2Command { get; private set; }
-
         public ObservableCollection<CredsModel> CredsList { get; private set; }
 
         public CredsModel SelectedCreds
@@ -97,12 +91,6 @@ namespace TTWebClientUI
             AddCommand = new Command(AddCreds);
             DeleteCommand = new Command(DeleteCreds);
             EditCommand = new Command(EditCreds);
-
-            PublicTradeSessionCommand = new Command(async () => await ClientView.GetPublicTradeSession());
-            PublicCurrenciesCommand = new Command(async () => await ClientView.GetPublicCurrencies());
-            PublicSymbolsCommand = new Command(async () => await ClientView.GetPublicSymbols());
-            PublicTicksCommand = new Command(async () => await ClientView.GetPublicTicks());
-            PublicTicksL2Command = new Command(async () => await ClientView.GetPublicTicksLevel2());
 
             CredsList = new ObservableCollection<CredsModel>();
 

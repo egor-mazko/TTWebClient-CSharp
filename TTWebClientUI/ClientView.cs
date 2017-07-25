@@ -9,39 +9,51 @@ using TTWebClient.Domain;
 
 namespace TTWebClientUI
 {
+    internal static class ViewExtensions
+    {
+        public static string ToShortString(this TTFeedLevel2Record feedL2Rec)
+        {
+            return $"{feedL2Rec.Price} / {feedL2Rec.Volume}";
+        }
+        public static string ToLongString(this TTFeedLevel2Record feedL2Rec)
+        {
+            return $"{feedL2Rec.Type} {feedL2Rec.Price} / {feedL2Rec.Volume}";
+        }
+    }
+
     internal class FeedTickView : ObservableObject
     {
         public string Symbol { get; set; }
-        public DateTime Timestamp { get; set; }
+        public string Timestamp { get; set; }
         public string BestBid { get; set; }
         public string BestAsk { get; set; }
 
         public FeedTickView(TTFeedTick tick)
         {
             Symbol = tick.Symbol;
-            Timestamp = tick.Timestamp;
-            BestBid = $"{tick.BestBid.Price}/{tick.BestBid.Volume}";
-            BestAsk = $"{tick.BestAsk.Price}/{tick.BestAsk.Volume}";
+            Timestamp = tick.Timestamp.ToString("u");
+            BestBid = tick.BestBid.ToShortString();
+            BestAsk = tick.BestAsk.ToShortString();
         }
     }
 
-    internal class FeedTickL2
+    internal class FeedTickL2View
     {
         public string Symbol { get; set; }
-        public DateTime Timestamp { get; set; }
+        public string Timestamp { get; set; }
         public string BestBid { get; set; }
         public string BestAsk { get; set; }
         public string Bids { get; set; }
         public string Asks { get; set; }
 
-        public FeedTickL2(TTFeedTickLevel2 tick)
+        public FeedTickL2View(TTFeedTickLevel2 tick)
         {
             Symbol = tick.Symbol;
-            Timestamp = tick.Timestamp;
-            BestBid = $"{tick.BestBid.Price}/{tick.BestBid.Volume}";
-            BestAsk = $"{tick.BestAsk.Price}/{tick.BestAsk.Volume}";
-            Bids = string.Join(" ", tick.Bids.Select(b => $"{b.Price}/{b.Volume}"));
-            Asks = string.Join(" ", tick.Asks.Select(b => $"{b.Price}/{b.Volume}"));
+            Timestamp = tick.Timestamp.ToString("u");
+            BestBid = tick.BestBid.ToShortString();
+            BestAsk = tick.BestAsk.ToShortString();
+            Bids = string.Join(" ", tick.Bids.Select(b => b.ToShortString()));
+            Asks = string.Join(" ", tick.Asks.Select(a => a.ToShortString()));
         }
     }
 
@@ -55,8 +67,17 @@ namespace TTWebClientUI
         private string _publicSymbolsFilter;
         private ObservableCollection<FeedTickView> _publicTicks;
         private string _publicTicksFilter;
-        private ObservableCollection<FeedTickL2> _publicTicksL2;
+        private ObservableCollection<FeedTickL2View> _publicTicksL2;
         private string _publicTicksL2Filter;
+        private ObservableCollection<TTTicker> _publicTickers;
+        private string _publicTickersFilter;
+
+        public Command PublicTradeSessionCommand { get; private set; }
+        public Command PublicCurrenciesCommand { get; private set; }
+        public Command PublicSymbolsCommand { get; private set; }
+        public Command PublicTicksCommand { get; private set; }
+        public Command PublicTicksL2Command { get; private set; }
+        public Command PublicTickersCommand { get; private set; }
 
         public ObservableCollection<KeyValuePair<string, object>> PublicTradeSession
         {
@@ -128,7 +149,7 @@ namespace TTWebClientUI
             }
         }
 
-        public ObservableCollection<FeedTickL2> PublicTicksL2
+        public ObservableCollection<FeedTickL2View> PublicTicksL2
         {
             get { return _publicTicksL2; }
             set
@@ -148,21 +169,42 @@ namespace TTWebClientUI
             }
         }
 
+        public ObservableCollection<TTTicker> PublicTickers
+        {
+            get { return _publicTickers; }
+            set
+            {
+                _publicTickers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string PublicTickersFilter
+        {
+            get { return _publicTickersFilter; }
+            set
+            {
+                _publicTickersFilter = value;
+                OnPropertyChanged();
+            }
+        }
+
         static ClientView()
         {
             // Optional: Force to ignore server certificate 
             TickTraderWebClient.IgnoreServerCertificate();
         }
 
-        public ClientView(string webApiAddress, string webApiId, string webApiKey, string webApiSecret)
-        {
-            // Create instance of the TickTrader Web API client
-            _client = new TickTraderWebClient(webApiAddress, webApiId, webApiKey, webApiSecret);
-        }
-
         public ClientView(CredsModel creds)
         {
             _client = new TickTraderWebClient(creds.WebApiAddress, creds.WebApiId, creds.WebApiKey, creds.WebApiSecret);
+
+            PublicTradeSessionCommand = new Command(async () => await GetPublicTradeSession());
+            PublicCurrenciesCommand = new Command(async () => await GetPublicCurrencies());
+            PublicSymbolsCommand = new Command(async () => await GetPublicSymbols());
+            PublicTicksCommand = new Command(async () => await GetPublicTicks());
+            PublicTicksL2Command = new Command(async () => await GetPublicTicksLevel2());
+            PublicTickersCommand = new Command(async () => await GetPublicTickers());
         }
 
         #region Public trade session information
@@ -237,19 +279,20 @@ namespace TTWebClientUI
             else
                 publicTicksLevel2 = await _client.GetPublicTickLevel2Async(PublicTicksL2Filter);
 
-            PublicTicksL2 = publicTicksLevel2 != null ? new ObservableCollection<FeedTickL2>(publicTicksLevel2.Select(t => new FeedTickL2(t))) : null;
+            PublicTicksL2 = publicTicksLevel2 != null ? new ObservableCollection<FeedTickL2View>(publicTicksLevel2.Select(t => new FeedTickL2View(t))) : null;
         }
 
         public async Task GetPublicTickers()
         {
             // Public symbol statistics
-            List<TTTicker> publicTickers = await _client.GetPublicAllTickersAsync();
-            foreach (var t in publicTickers)
-                Console.WriteLine("{0} last buy/sell prices : {1} / {2}", t.Symbol, t.LastBuyPrice, t.LastSellPrice);
+            List<TTTicker> publicTickers;
 
-            TTTicker publicTicker = (await _client.GetPublicTickerAsync(publicTickers[0].Symbol)).FirstOrDefault();
-            if (publicTicker != null)
-                Console.WriteLine("{0} best bid/ask: {1} / {2}", publicTicker.Symbol, publicTicker.BestBid, publicTicker.BestAsk);
+            if (string.IsNullOrEmpty(PublicTickersFilter))
+                publicTickers = await _client.GetPublicAllTickersAsync();
+            else
+                publicTickers = await _client.GetPublicTickerAsync(PublicTickersFilter);
+
+            PublicTickers = publicTickers != null ? new ObservableCollection<TTTicker>(publicTickers) : null;
         }
 
         #endregion

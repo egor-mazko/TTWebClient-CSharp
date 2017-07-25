@@ -6,35 +6,31 @@
         xmlns:local="clr-namespace:TTWebClientUI"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
-        Title="{Binding Title}" d:DesignWidth="270.577" d:DesignHeight="227.769">
+        Title="{Binding Title}" MaxWidth="350" MaxHeight="340" d:DesignWidth="350" d:DesignHeight="340">
 
     <Window.Resources>
 
         <Style TargetType="TextBox">
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Margin" Value="4,0,0,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="4,2"/>
         </Style>
 
         <Style TargetType="Label">
-            <Setter Property="Margin" Value="4,3,0,0"/>
-            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="4,2"/>
         </Style>
 
         <Style TargetType="Button">
-            <Setter Property="Width" Value="75"/>
-            <Setter Property="Margin" Value="4,4,0,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="4,2"/>
+            <Setter Property="MinWidth" Value="75"/>
         </Style>
 
     </Window.Resources>
 
     <Grid>
-        <Grid Name="CfgGrid" Margin="0,0,4,4">
+        <Grid Name="CfgGrid" Margin="4,2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -47,20 +43,22 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label Content="Server" Grid.Row="0"/>
-            <Label Content="WebApiId" Grid.Row="2"/>
-            <Label Content="WebApiKey" Grid.Row="4"/>
-            <Label Content="WebApiSecret" Grid.Row="6"/>
+            <Label Content="Server:" Grid.Row="0"/>
+            <Label Content="WebApiId:" Grid.Row="2"/>
+            <Label Content="WebApiKey:" Grid.Row="4"/>
+            <Label Content="WebApiSecret:" Grid.Row="6"/>
+            <Label Content="Account (optional):" Grid.Row="8"/>
 
-            <TextBox Grid.Row="1" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="2" Width="247" />
-            <TextBox Grid.Row="3" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="0" Width="247" />
-            <TextBox Grid.Row="5" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="1" Width="247" />
-            <TextBox Grid.Row="7" Text="{Binding Secret, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="1" Width="247" />
+            <TextBox Grid.Row="1" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="0" />
+            <TextBox Grid.Row="3" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="1" />
+            <TextBox Grid.Row="5" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="2" />
+            <TextBox Grid.Row="7" Text="{Binding Secret, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="3" />
+            <TextBox Grid.Row="9" Text="{Binding Account, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="4" />
 
 
-            <StackPanel Grid.Row="9" Orientation="Horizontal" Margin="0,5,0,0">
-                <Button Content="Ok" IsDefault="True" Command="{Binding CmdOk}" TabIndex="3" />
-                <Button Content="Cancel" IsCancel="True" TabIndex="4"/>
+            <StackPanel Grid.Row="10" Orientation="Horizontal" Margin="4,4" HorizontalAlignment="Right">
+                <Button Content="Ok" IsDefault="True" Command="{Binding CmdOk}" TabIndex="5" />
+                <Button Content="Cancel" IsCancel="True" TabIndex="6"/>
             </StackPanel>
 
         </Grid>

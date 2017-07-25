@@ -108,6 +108,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Expander Grid.Row="0" Header="Trade Session" Margin="4,2">
                             <Grid>
@@ -115,7 +116,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Button Grid.Row="0" Content="GET" Command="{Binding PublicTradeSessionCommand}"/>
+                                <Button Grid.Row="0" Content="GET" Command="{Binding Path=ClientView.PublicTradeSessionCommand}"/>
                                 <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.PublicTradeSession}">
                                     <ListView.View>
                                         <GridView>
@@ -135,7 +136,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Button Content="GET" Command="{Binding PublicCurrenciesCommand}" Margin="4,2"/>
+                                    <Button Content="GET" Command="{Binding Path=ClientView.PublicCurrenciesCommand}" Margin="4,2"/>
                                     <Label Content="Filter:" Margin="4,2"/>
                                     <TextBox Margin="4,2" Text="{Binding Path=ClientView.PublicCurrenciesFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
@@ -159,7 +160,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Button Content="GET" Command="{Binding PublicSymbolsCommand}" Margin="4,2"/>
+                                    <Button Content="GET" Command="{Binding Path=ClientView.PublicSymbolsCommand}" Margin="4,2"/>
                                     <Label Content="Filter:" Margin="4,2"/>
                                     <TextBox Margin="4,2" Text="{Binding Path=ClientView.PublicSymbolsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
@@ -204,7 +205,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Button Content="GET" Command="{Binding PublicTicksCommand}" Margin="4,2"/>
+                                    <Button Content="GET" Command="{Binding Path=ClientView.PublicTicksCommand}" Margin="4,2"/>
                                     <Label Content="Filter:" Margin="4,2"/>
                                     <TextBox Margin="4,2" Text="{Binding Path=ClientView.PublicTicksFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
@@ -229,7 +230,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Button Content="GET" Command="{Binding PublicTicksL2Command}" Margin="4,2"/>
+                                    <Button Content="GET" Command="{Binding Path=ClientView.PublicTicksL2Command}" Margin="4,2"/>
                                     <Label Content="Filter:" Margin="4,2"/>
                                     <TextBox Margin="4,2" Text="{Binding Path=ClientView.PublicTicksL2Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
@@ -243,6 +244,41 @@
                                                 <GridViewColumn Header="BestAsk" DisplayMemberBinding="{Binding Path=BestAsk}"/>
                                                 <GridViewColumn Header="Bids" DisplayMemberBinding="{Binding Path=BestBid}"/>
                                                 <GridViewColumn Header="Asks" DisplayMemberBinding="{Binding Path=BestAsk}"/>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </Expander>
+                        <Expander Grid.Row="5" Header="Tickers" Margin="4,2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                    <Button Content="GET" Command="{Binding Path=ClientView.PublicTickersCommand}" Margin="4,2"/>
+                                    <Label Content="Filter:" Margin="4,2"/>
+                                    <TextBox Margin="4,2" Text="{Binding Path=ClientView.PublicTickersFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.PublicTickers}" Height="180">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridView.Columns>
+                                                <GridViewColumn Header="Symbol" DisplayMemberBinding="{Binding Path=Symbol}"/>
+                                                <GridViewColumn Header="BestBid" DisplayMemberBinding="{Binding Path=BestBid}"/>
+                                                <GridViewColumn Header="BestAsk" DisplayMemberBinding="{Binding Path=BestAsk}"/>
+                                                <GridViewColumn Header="LastBuyPrice" DisplayMemberBinding="{Binding Path=LastBuyPrice}"/>
+                                                <GridViewColumn Header="LastBuyVolume" DisplayMemberBinding="{Binding Path=LastBuyVolume}"/>
+                                                <GridViewColumn Header="LastBuyTimestamp" DisplayMemberBinding="{Binding Path=LastBuyTimestamp}"/>
+                                                <GridViewColumn Header="LastSellPrice" DisplayMemberBinding="{Binding Path=LastSellPrice}"/>
+                                                <GridViewColumn Header="LastSellVolume" DisplayMemberBinding="{Binding Path=LastSellVolume}"/>
+                                                <GridViewColumn Header="LastSellTimestamp" DisplayMemberBinding="{Binding Path=LastSellTimestamp}"/>
+                                                <GridViewColumn Header="DailyBestBuyPrice" DisplayMemberBinding="{Binding Path=DailyBestBuyPrice}"/>
+                                                <GridViewColumn Header="DailyBestSellPrice" DisplayMemberBinding="{Binding Path=DailyBestSellPrice}"/>
+                                                <GridViewColumn Header="DailyTradedBuyVolume" DisplayMemberBinding="{Binding Path=DailyTradedBuyVolume}"/>
+                                                <GridViewColumn Header="DailyTradedSellVolume" DisplayMemberBinding="{Binding Path=DailyTradedSellVolume}"/>
+                                                <GridViewColumn Header="DailyTradedTotalVolume" DisplayMemberBinding="{Binding Path=DailyTradedTotalVolume}"/>
                                             </GridView.Columns>
                                         </GridView>
                                     </ListView.View>
