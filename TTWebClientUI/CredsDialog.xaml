@@ -8,16 +8,18 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
-        Title="{Binding Title}" MaxWidth="350" MaxHeight="340" d:DesignWidth="350" d:DesignHeight="340">
+        Title="{Binding Title}" MaxWidth="350" MaxHeight="310" d:DesignWidth="350" d:DesignHeight="310">
 
     <Window.Resources>
 
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="4,2"/>
+            <Setter Property="MinHeight" Value="22"/>
         </Style>
 
         <Style TargetType="Label">
             <Setter Property="Margin" Value="4,2"/>
+            <Setter Property="Padding" Value="0"/>
         </Style>
 
         <Style TargetType="Button">
@@ -44,9 +46,9 @@
             </Grid.RowDefinitions>
 
             <Label Content="Server:" Grid.Row="0"/>
-            <Label Content="WebApiId:" Grid.Row="2"/>
-            <Label Content="WebApiKey:" Grid.Row="4"/>
-            <Label Content="WebApiSecret:" Grid.Row="6"/>
+            <Label Content="WebApiId (optional):" Grid.Row="2"/>
+            <Label Content="WebApiKey (optional):" Grid.Row="4"/>
+            <Label Content="WebApiSecret (optional):" Grid.Row="6"/>
             <Label Content="Account (optional):" Grid.Row="8"/>
 
             <TextBox Grid.Row="1" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="0" />
@@ -54,7 +56,6 @@
             <TextBox Grid.Row="5" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="2" />
             <TextBox Grid.Row="7" Text="{Binding Secret, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="3" />
             <TextBox Grid.Row="9" Text="{Binding Account, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsInputsEnabled}" TabIndex="4" />
-
 
             <StackPanel Grid.Row="10" Orientation="Horizontal" Margin="4,4" HorizontalAlignment="Right">
                 <Button Content="Ok" IsDefault="True" Command="{Binding CmdOk}" TabIndex="5" />
