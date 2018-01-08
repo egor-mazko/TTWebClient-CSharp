@@ -22,6 +22,12 @@ namespace TTWebClient.Domain
         /// <summary>Upper timestamp bound of the trade history request (optional)</summary>
         public DateTime? TimestampTo { get; set; }
 
+        /// <summary>OrderId to filter the trade history request (optional)</summary>
+        public long? OrderId { get; set; }
+
+        /// <summary>Skip canel order history records (optional)</summary>
+        public bool? SkipCancelOrder { get; set; }
+
         /// <summary>Request paging direction ("Forward" or "Backward"). Default is "Forward" (optional)</summary>
         public TTStreamingDirections? RequestDirection { get; set; }
 
