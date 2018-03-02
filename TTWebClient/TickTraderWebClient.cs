@@ -449,7 +449,10 @@ namespace TTWebClient
         /// New trade history request is described by the filling following fields:
         /// - **TimestampFrom** (optional) - Lower timestamp bound of the trade history request
         /// - **TimestampTo** (optional) - Upper timestamp bound of the trade history request
+        /// - **OrderId** (optional) - Skip canel order history records
+        /// - **SkipCancelOrder** (optional) - OrderId to filter the trade history request
         /// - **RequestDirection** (optional) - Request paging direction ("Forward" or "Backward"). Default is "Forward".
+        /// - **RequestPageSize** (optional) - Request page size. Default is 100.
         /// - **RequestFromId** (optional) - Request paging from Id
         ///
         /// If timestamps fields are not set trade history will be requests from the begin or from the current timestamp
@@ -470,31 +473,31 @@ namespace TTWebClient
         }
 
         /// <summary>
-        /// Get account trade history for the given trade Id
+        /// Get daily account snapshots
         /// </summary>
         /// <remarks>
-        /// New trade history request is described by the filling following fields:
-        /// - **TimestampFrom** (optional) - Lower timestamp bound of the trade history request
-        /// - **TimestampTo** (optional) - Upper timestamp bound of the trade history request
+        /// New daily account snapshots request is described by the filling following fields:
+        /// - **TimestampFrom** - Lower timestamp bound of the daily account snapshot request
+        /// - **TimestampTo** - Upper timestamp bound of the daily account snapshot request
         /// - **RequestDirection** (optional) - Request paging direction ("Forward" or "Backward"). Default is "Forward".
+        /// - **RequestPageSize** (optional) - Request page size. Default is 100.
         /// - **RequestFromId** (optional) - Request paging from Id
         ///
-        /// If timestamps fields are not set trade history will be requests from the begin or from the current timestamp
+        /// If timestamps fields are not set daily account snapshots will be requested from the begin or from the current timestamp
         /// depending on **RequestDirection** value.
         ///
-        /// Trade history is returned by chunks by paging size (default is 100). You can provide timestamp bounds (from, to)
-        /// and direction of access (forward or backward). After the first request you'll get a list of trade history
+        /// Snapshots are returned by chunks by paging size (default is 100). You can provide timestamp bounds (from, to)
+        /// and direction of access (forward or backward). After the first request you'll get a list of daily account snapshots
         /// records with Ids. The next request should contain **RequestFromId** with the Id of the last processed trade
-        /// history record. As the result you'll get the next chunk of trade history records. If the last page was reached
+        /// history record. As the result you'll get the next chunk of snapshot records. If the last page was reached
         /// response flag **IsLastReport** will be set.
         /// </remarks>
-        /// <param name="tradeId">Trade Id</param>
-        /// <param name="request">Trade history request</param>
-        /// <returns>Trade history report</returns>
-        public TTTradeHistoryReport GetTradeHistory(long tradeId, TTTradeHistoryRequest request) { return ConvertToSync(() => GetTradeHistoryAsync(tradeId, request).Result); }
-        public Task<TTTradeHistoryReport> GetTradeHistoryAsync(long tradeId, TTTradeHistoryRequest request)
+        /// <param name="request">Daily account snapshots request</param>
+        /// <returns>Daily account snapshots report</returns>
+        public TTDailySnapshotReport GetDailySnapshots(TTDailySnapshotRequest request) { return ConvertToSync(() => GetDailySnapshotsAsync(request).Result); }
+        public Task<TTDailySnapshotReport> GetDailySnapshotsAsync(TTDailySnapshotRequest request)
         {
-            return PrivateHttpPostAsync<TTTradeHistoryReport, TTTradeHistoryRequest>(string.Format("api/v1/tradehistory/{0}", tradeId), request);
+            return PrivateHttpPostAsync<TTDailySnapshotReport, TTDailySnapshotRequest>("api/v1/dailysnapshots", request);
         }
 
         #endregion

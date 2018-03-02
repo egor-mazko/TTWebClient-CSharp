@@ -17,8 +17,8 @@ namespace TTWebClient.Domain
         Credit          = 6,
         PositionOpened  = 7,
         OrderActivated  = 8
-    } 
-    
+    }
+
     /// <summary>
     /// Trade transaction reasons
     /// </summary>
@@ -277,7 +277,13 @@ namespace TTWebClient.Domain
         /// <summary>Is report last for paging request?</summary>
         public bool IsLastReport { get; set; }
 
+        /// <summary>Count of total reports</summary>
+        public long TotalReports { get; set; }
+
         /// <summary>List of trade history records</summary>
         public List<TTTradeHistory> Records { get; set; }
+
+        /// <summary>Last trade history record Id (used for paging)</summary>
+        public string LastId { get; set; }
     }
 }

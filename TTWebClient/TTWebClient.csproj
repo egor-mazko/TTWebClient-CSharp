@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="Domain\TTAccount.cs" />
     <Compile Include="Domain\TTAsset.cs" />
+    <Compile Include="Domain\TTDailySnapshotReport.cs" />
+    <Compile Include="Domain\TTDailySnapshotRequest.cs" />
     <Compile Include="Domain\TTFeedLevel2Record.cs" />
     <Compile Include="Domain\TTFeedTick.cs" />
     <Compile Include="Domain\TTFeedTickLevel2.cs" />
