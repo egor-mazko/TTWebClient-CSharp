@@ -59,6 +59,28 @@ namespace TTWebClientUI
         }
     }
 
+    internal enum WebClientMethods
+    {
+        GetPublicTradeSession,
+        GetPublicCurrencies,
+        GetPublicSymbols,
+        GetPublicTicks,
+        GetPublicTicksLevel2,
+        GetPublicTickers,
+    }
+
+    internal class MethodView
+    {
+        public WebClientMethods Method { get; set; }
+        public bool IsChecked { get; set; }
+
+        public MethodView(WebClientMethods method, bool isChecked=false)
+        {
+            Method = method;
+            IsChecked = isChecked;
+        }
+    }
+
     internal class ClientView : ObservableObject
     {
         private readonly TickTraderWebClient _client;
@@ -78,6 +100,7 @@ namespace TTWebClientUI
         private string _publicTicksL2Filter;
         private ObservableCollection<TTTicker> _publicTickers;
         private string _publicTickersFilter;
+        private ObservableCollection<MethodView> _publicMethods;
 
         //private fields
         private PropertyValueCollection _accountInfo = new PropertyValueCollection();
@@ -98,6 +121,9 @@ namespace TTWebClientUI
         private string _positionId;
         private ObservableCollection<TTTrade> _trades;
         private string _tradeId;
+        private ObservableCollection<TTTradeHistory> _tradeReports;
+        private DateTime _tradeHistoryFrom;
+        private DateTime _tradeHistoryTo;
 
         public Command PublicTradeSessionCommand { get; private set; }
         public Command PublicCurrenciesCommand { get; private set; }
@@ -115,6 +141,7 @@ namespace TTWebClientUI
         public Command AssetsCommand { get; set; }
         public Command PositionsCommand { get; set; }
         public Command TradesCommand { get; set; }
+        public Command TradeHistoryCommand { get; set; }
 
         public bool IsPublicEnabled
         {
@@ -248,6 +275,15 @@ namespace TTWebClientUI
             }
         }
 
+        public ObservableCollection<MethodView> PublicMethods
+        {
+            get { return _publicMethods; }
+            set
+            {
+                _publicMethods = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -433,6 +469,36 @@ namespace TTWebClientUI
             }
         }
 
+        public ObservableCollection<TTTradeHistory> TradeReports
+        {
+            get { return _tradeReports; }
+            set
+            {
+                _tradeReports = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime TradeHistoryFrom
+        {
+            get { return _tradeHistoryFrom; }
+            set
+            {
+                _tradeHistoryFrom = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime TradeHistoryTo
+        {
+            get { return _tradeHistoryTo; }
+            set
+            {
+                _tradeHistoryTo = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         static ClientView()
@@ -459,6 +525,7 @@ namespace TTWebClientUI
             AssetsCommand = new Command(async () => await GetAssets());
             PositionsCommand = new Command(async () => await GetPositions());
             TradesCommand = new Command(async () => await GetTrades());
+            TradeHistoryCommand = new Command(async () => await GetTradeHistory());
 
             if (creds.IsPublicOnly)
             {
@@ -472,7 +539,24 @@ namespace TTWebClientUI
                 IsPublicEnabled = true;
                 IsPrivateEnabled = true;
                 AccountInfoCommand.Execute(null);
+                TradeHistoryTo = DateTime.UtcNow.Date;
+                TradeHistoryFrom = TradeHistoryTo.AddDays(-1);
             }
+
+            InitPublicMethods();
+        }
+
+        private void InitPublicMethods()
+        {
+            PublicMethods = new ObservableCollection<MethodView>()
+            {
+                new MethodView(WebClientMethods.GetPublicTradeSession),
+                new MethodView(WebClientMethods.GetPublicCurrencies),
+                new MethodView(WebClientMethods.GetPublicSymbols),
+                new MethodView(WebClientMethods.GetPublicTicks),
+                new MethodView(WebClientMethods.GetPublicTicksLevel2),
+                new MethodView(WebClientMethods.GetPublicTickers)
+            };
         }
 
         #region Public trade session information
@@ -763,20 +847,24 @@ namespace TTWebClientUI
 
         public async Task GetTradeHistory()
         {
-            int iterations = 3;
-            var request = new TTTradeHistoryRequest { TimestampTo = DateTime.UtcNow, RequestDirection = TTStreamingDirections.Backward, RequestPageSize = 10 };
-
-            // Try to get trade history from now to the past. Request is limited to 30 records!
-            while (iterations-- > 0)
+            TTStreamingDirections direction = TradeHistoryFrom < TradeHistoryTo
+                ? TTStreamingDirections.Forward
+                : TTStreamingDirections.Backward;
+            var req = new TTTradeHistoryRequest
             {
-                TTTradeHistoryReport report = await _client.GetTradeHistoryAsync(request);
-                foreach (var record in report.Records)
+                TimestampFrom = TradeHistoryFrom < TradeHistoryTo ? TradeHistoryFrom : TradeHistoryTo,
+                TimestampTo = TradeHistoryFrom > TradeHistoryTo ? TradeHistoryFrom : TradeHistoryTo,
+                RequestDirection = direction
+            };
+            TradeReports = new ObservableCollection<TTTradeHistory>();
+            while (true)
+            {
+                TTTradeHistoryReport report = await _client.GetTradeHistoryAsync(req);
+                foreach (TTTradeHistory tradeHistory in report.Records)
                 {
-                    Console.WriteLine("TradeHistory record: Id={0}, TransactionType={1}, TransactionReason={2}, Symbol={3}, TradeId={4}", record.Id, record.TransactionType, record.TransactionReason, record.Symbol, record.TradeId);
-                    request.RequestLastId = record.Id;
+                    TradeReports.Add(tradeHistory);
+                    req.RequestLastId = tradeHistory.Id;
                 }
-
-                // Stop for last report
                 if (report.IsLastReport)
                     break;
             }

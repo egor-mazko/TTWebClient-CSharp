@@ -13,7 +13,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style TargetType="TextBox">
-            <Setter Property="MinWidth" Value="260"/>
+            <Setter Property="MinWidth" Value="200"/>
             <Setter Property="Margin" Value="4,2"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
@@ -109,7 +109,7 @@
         </StackPanel>
 
         <TabControl x:Name="TabControl" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="4" IsEnabled="{Binding IsValid}">
-            <TabItem x:Name="TabItemPublic" Header="Public" ScrollViewer.CanContentScroll="True">
+            <TabItem x:Name="TabItemPublic" Header="Public Test" ScrollViewer.CanContentScroll="True">
                 <ScrollViewer>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -298,7 +298,47 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="TabItemPrivate" Header="Private" ScrollViewer.CanContentScroll="True" Visibility="{Binding Path=ClientView.IsPrivateEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" IsVisibleChanged="TabItemPrivate_IsVisibleChanged">
+            <TabItem Header="Public Load">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Path=ClientView.PublicMethods}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=IsChecked}" Content="{Binding Path=Method}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="4,2">
+                            <Label Content="Delay:"/>
+                            <TextBox/>
+                        </StackPanel>
+                        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Method Name" Binding="{Binding Name}" />
+                                <DataGridTextColumn Header="Calls" Binding="{Binding Depth, StringFormat=#.##}"/>
+                                <DataGridTextColumn Header="Calls per Second" Binding="{Binding PerSecond, StringFormat=#.##}"/>
+                                <DataGridTextColumn Header="Fails" Binding="{Binding Delay, StringFormat=#.##}"/>
+                                <!--<DataGridTextColumn Header="Sigma" Binding="{Binding Sigma, StringFormat=#.##}"/>-->
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Orientation="Vertical" Margin="4,2">
+                            <Button Content="Start" HorizontalAlignment="Stretch"/>
+                            <Button Content="Stop" HorizontalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem x:Name="TabItemPrivate" Header="Private Test" ScrollViewer.CanContentScroll="True" Visibility="{Binding Path=ClientView.IsPrivateEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" IsVisibleChanged="TabItemPrivate_IsVisibleChanged">
                 <ScrollViewer>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -488,7 +528,7 @@
                                     <Label Content="Asset Currency:"/>
                                     <TextBox Text="{Binding Path=ClientView.AssetCurrency, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
-                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Assets}" MaxHeight="Infinity">
+                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Assets}">
                                     <ListView.View>
                                         <GridView>
                                             <GridView.Columns>
@@ -511,7 +551,7 @@
                                     <Label Content="Position Id:"/>
                                     <TextBox Text="{Binding Path=ClientView.PositionId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
-                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Positions}" MaxHeight="Infinity">
+                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Positions}">
                                     <ListView.View>
                                         <GridView>
                                             <GridView.Columns>
@@ -541,7 +581,7 @@
                                     <Label Content="Trade Id:"/>
                                     <TextBox Text="{Binding Path=ClientView.TradeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
-                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Trades}" MaxHeight="Infinity">
+                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Trades}">
                                     <ListView.View>
                                         <GridView>
                                             <GridView.Columns>
@@ -580,9 +620,64 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                    <Button Content="GET" Command="{Binding Path=ClientView.TradeHistoryCommand}"/>
+                                    <Label Content="From:"/>
+                                    <DatePicker SelectedDate="{Binding Path=ClientView.TradeHistoryFrom}"/>
+                                    <Label Content="To:"/>
+                                    <DatePicker SelectedDate="{Binding Path=ClientView.TradeHistoryTo}"/>
+                                </StackPanel>
+                                <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.TradeReports}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridView.Columns>
+                                                <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path=Id}"/>
+                                                <GridViewColumn Header="TransactionType" DisplayMemberBinding="{Binding Path=TransactionType}"/>
+                                                <GridViewColumn Header="TransactionReason" DisplayMemberBinding="{Binding Path=TransactionReason}"/>
+                                                <GridViewColumn Header="TransactionTimestamp" DisplayMemberBinding="{Binding Path=TransactionTimestamp, StringFormat=u}"/>
+                                                <GridViewColumn Header="Symbol" DisplayMemberBinding="{Binding Path=Symbol}"/>
+                                                <GridViewColumn Header="TradeId" DisplayMemberBinding="{Binding Path=TradeId}"/>
+                                                <GridViewColumn Header="ParentTradeId" DisplayMemberBinding="{Binding Path=ParentTradeId}"/>
+                                                <GridViewColumn Header="ClientTradeId" DisplayMemberBinding="{Binding Path=ClientTradeId}"/>
+                                                <GridViewColumn Header="TradeSide" DisplayMemberBinding="{Binding Path=TradeSide}"/>
+                                                <GridViewColumn Header="TradeType" DisplayMemberBinding="{Binding Path=TradeType}"/>
+                                                <GridViewColumn Header="TradeCreated" DisplayMemberBinding="{Binding Path=TradeCreated, StringFormat=u}"/>
+                                                <GridViewColumn Header="TradeModified" DisplayMemberBinding="{Binding Path=TradeModified, StringFormat=u}"/>
+                                                <GridViewColumn Header="TradeAmount" DisplayMemberBinding="{Binding Path=TradeAmount}"/>
+                                                <GridViewColumn Header="TradeInitialAmount" DisplayMemberBinding="{Binding Path=TradeInitialAmount}"/>
+                                                <GridViewColumn Header="TradeLastFillAmount" DisplayMemberBinding="{Binding Path=TradeLastFillAmount}"/>
+                                                <GridViewColumn Header="TradePrice" DisplayMemberBinding="{Binding Path=TradePrice}"/>
+                                                <GridViewColumn Header="TradeFillPrice" DisplayMemberBinding="{Binding Path=TradeFillPrice}"/>
+                                                <GridViewColumn Header="RequestPrice" DisplayMemberBinding="{Binding Path=RequestPrice}"/>
+                                                <GridViewColumn Header="RequestTimestamp" DisplayMemberBinding="{Binding Path=RequestTimestamp, StringFormat=u}"/>
+                                                <GridViewColumn Header="PositionId" DisplayMemberBinding="{Binding Path=PositionId}"/>
+                                                <GridViewColumn Header="PositionAmount" DisplayMemberBinding="{Binding Path=PositionAmount}"/>
+                                                <GridViewColumn Header="PositionInitialAmount" DisplayMemberBinding="{Binding Path=PositionInitialAmount}"/>
+                                                <GridViewColumn Header="PositionLastAmount" DisplayMemberBinding="{Binding Path=PositionLastAmount}"/>
+                                                <GridViewColumn Header="PositionOpenPrice" DisplayMemberBinding="{Binding Path=PositionOpenPrice}"/>
+                                                <GridViewColumn Header="PositionOpened" DisplayMemberBinding="{Binding Path=PositionOpened, StringFormat=u}"/>
+                                                <GridViewColumn Header="PositionClosePrice" DisplayMemberBinding="{Binding Path=PositionClosePrice}"/>
+                                                <GridViewColumn Header="PositionClosed" DisplayMemberBinding="{Binding Path=PositionClosed, StringFormat=u}"/>
+                                                <GridViewColumn Header="Balance" DisplayMemberBinding="{Binding Path=Balance}"/>
+                                                <GridViewColumn Header="BalanceMovement" DisplayMemberBinding="{Binding Path=BalanceMovement}"/>
+                                                <GridViewColumn Header="BalanceCurrency" DisplayMemberBinding="{Binding Path=BalanceCurrency}"/>
+                                                <GridViewColumn Header="StopLoss" DisplayMemberBinding="{Binding Path=StopLoss}"/>
+                                                <GridViewColumn Header="TakeProfit" DisplayMemberBinding="{Binding Path=TakeProfit}"/>
+                                                <GridViewColumn Header="Commission" DisplayMemberBinding="{Binding Path=Commission}"/>
+                                                <GridViewColumn Header="AgentCommission" DisplayMemberBinding="{Binding Path=AgentCommission}"/>
+                                                <GridViewColumn Header="Swap" DisplayMemberBinding="{Binding Path=Swap}"/>
+                                                <GridViewColumn Header="Expired" DisplayMemberBinding="{Binding Path=Expired, StringFormat=u}"/>
+                                                <GridViewColumn Header="Comment" DisplayMemberBinding="{Binding Path=Comment}"/>
+                                                <GridViewColumn Header="MarginRateInitial" DisplayMemberBinding="{Binding Path=MarginRateInitial}"/>
+                                                <GridViewColumn Header="OpenConversionRate" DisplayMemberBinding="{Binding Path=OpenConversionRate}"/>
+                                                <GridViewColumn Header="CloseConversionRate" DisplayMemberBinding="{Binding Path=CloseConversionRate}"/>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
                             </Grid>
                         </Expander>
-                        <Expander Grid.Row="10" Header="Create Trade">
+                        <!--<Expander Grid.Row="10" Header="Create Trade">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -621,10 +716,11 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                             </Grid>
-                        </Expander>
+                        </Expander>-->
                     </Grid>
                 </ScrollViewer>
             </TabItem>
+            <TabItem Header="Private Load"></TabItem>
         </TabControl>
     </Grid>
 </Window>

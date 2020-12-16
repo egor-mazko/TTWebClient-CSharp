@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="CredsDialogModel.cs" />
     <Compile Include="IWndService.cs" />
+    <Compile Include="LoadClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
