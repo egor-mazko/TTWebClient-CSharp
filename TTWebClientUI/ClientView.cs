@@ -34,8 +34,8 @@ namespace TTWebClientUI
         {
             Symbol = tick.Symbol;
             Timestamp = tick.Timestamp.ToString("u");
-            BestBid = tick.BestBid.ToShortString();
-            BestAsk = tick.BestAsk.ToShortString();
+            BestBid = tick.BestBid?.ToShortString();
+            BestAsk = tick.BestAsk?.ToShortString();
         }
     }
 
@@ -52,10 +52,10 @@ namespace TTWebClientUI
         {
             Symbol = tick.Symbol;
             Timestamp = tick.Timestamp.ToString("u");
-            BestBid = tick.BestBid.ToShortString();
-            BestAsk = tick.BestAsk.ToShortString();
-            Bids = string.Join(" ", tick.Bids.Select(b => b.ToShortString()));
-            Asks = string.Join(" ", tick.Asks.Select(a => a.ToShortString()));
+            BestBid = tick.BestBid?.ToShortString();
+            BestAsk = tick.BestAsk?.ToShortString();
+            Bids = string.Join(" ", tick.Bids.Select(b => b?.ToShortString()));
+            Asks = string.Join(" ", tick.Asks.Select(a => a?.ToShortString()));
         }
     }
 
@@ -121,6 +121,7 @@ namespace TTWebClientUI
         private string _positionId;
         private ObservableCollection<TTTrade> _trades;
         private string _tradeId;
+        private string _tradeRequest;
         private ObservableCollection<TTTradeHistory> _tradeReports;
         private DateTime _tradeHistoryFrom;
         private DateTime _tradeHistoryTo;
@@ -132,16 +133,17 @@ namespace TTWebClientUI
         public Command PublicTicksL2Command { get; private set; }
         public Command PublicTickersCommand { get; private set; }
 
-        public Command AccountInfoCommand { get; set; }
-        public Command TradeSessionCommand { get; set; }
-        public Command CurrenciesCommand { get; private set; }
-        public Command SymbolsCommand { get; private set; }
-        public Command TicksCommand { get; private set; }
-        public Command TicksL2Command { get; private set; }
-        public Command AssetsCommand { get; set; }
-        public Command PositionsCommand { get; set; }
-        public Command TradesCommand { get; set; }
-        public Command TradeHistoryCommand { get; set; }
+        public Command GetAccountCommand { get; set; }
+        public Command GetTradeSessionCommand { get; set; }
+        public Command GetCurrenciesCommand { get; private set; }
+        public Command GetSymbolsCommand { get; private set; }
+        public Command GetTicksCommand { get; private set; }
+        public Command GetTicksL2Command { get; private set; }
+        public Command GetAssetsCommand { get; set; }
+        public Command GetPositionsCommand { get; set; }
+        public Command GetTradesCommand { get; set; }
+        public Command PostTradeCommand { get; set; }
+        public Command GetTradeHistoryCommand { get; set; }
 
         public bool IsPublicEnabled
         {
@@ -469,6 +471,16 @@ namespace TTWebClientUI
             }
         }
 
+        public string TradeRequest
+        {
+            get { return _tradeRequest; }
+            set
+            {
+                _tradeRequest = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<TTTradeHistory> TradeReports
         {
             get { return _tradeReports; }
@@ -516,16 +528,17 @@ namespace TTWebClientUI
             PublicTicksL2Command = new Command(async () => await GetPublicTicksLevel2());
             PublicTickersCommand = new Command(async () => await GetPublicTickers());
 
-            AccountInfoCommand = new Command(async () => await GetAccount());
-            TradeSessionCommand = new Command(async () => await GetTradeSession());
-            CurrenciesCommand = new Command(async () => await GetCurrencies());
-            SymbolsCommand = new Command(async () => await GetSymbols());
-            TicksCommand = new Command(async () => await GetTicks());
-            TicksL2Command = new Command(async () => await GetTicksLevel2());
-            AssetsCommand = new Command(async () => await GetAssets());
-            PositionsCommand = new Command(async () => await GetPositions());
-            TradesCommand = new Command(async () => await GetTrades());
-            TradeHistoryCommand = new Command(async () => await GetTradeHistory());
+            GetAccountCommand = new Command(async () => await GetAccount());
+            GetTradeSessionCommand = new Command(async () => await GetTradeSession());
+            GetCurrenciesCommand = new Command(async () => await GetCurrencies());
+            GetSymbolsCommand = new Command(async () => await GetSymbols());
+            GetTicksCommand = new Command(async () => await GetTicks());
+            GetTicksL2Command = new Command(async () => await GetTicksLevel2());
+            GetAssetsCommand = new Command(async () => await GetAssets());
+            GetPositionsCommand = new Command(async () => await GetPositions());
+            GetTradesCommand = new Command(async () => await GetTrades());
+            PostTradeCommand = new Command(async () => await PostTrade());
+            GetTradeHistoryCommand = new Command(async () => await GetTradeHistory());
 
             if (creds.IsPublicOnly)
             {
@@ -538,7 +551,7 @@ namespace TTWebClientUI
                 _client = new TickTraderWebClient(creds.WebApiAddress, creds.WebApiId, creds.WebApiKey, creds.WebApiSecret);
                 IsPublicEnabled = true;
                 IsPrivateEnabled = true;
-                AccountInfoCommand.Execute(null);
+                GetAccountCommand.Execute(null);
                 TradeHistoryTo = DateTime.UtcNow.Date;
                 TradeHistoryFrom = TradeHistoryTo.AddDays(-1);
             }
@@ -835,6 +848,28 @@ namespace TTWebClientUI
                     catch (Exception)
                     {
                     }
+                }
+            }
+
+            Trades = trades != null ? new ObservableCollection<TTTrade>(trades) : null;
+        }
+
+        public async Task PostTrade()
+        {
+            // Account trades
+            List<TTTrade> trades = null;
+            if (string.IsNullOrEmpty(TradeRequest))
+                await Task.CompletedTask;
+            else
+            {
+                try
+                {
+                    TTTradeCreate tradeCreate = new TTTradeCreate();
+                    TTTrade trade = await _client.CreateTradeAsync(tradeCreate);
+                    trades = new List<TTTrade>(new[] { trade });
+                }
+                catch (Exception)
+                {
                 }
             }
 

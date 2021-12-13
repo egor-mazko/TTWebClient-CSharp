@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -38,10 +39,9 @@ namespace TTWebClient
         /// <param name="webApiAddress">Web API address</param>
         public TickTraderWebClient(string webApiAddress)
         {
-            if (webApiAddress == null)
-                throw new ArgumentNullException("webApiAddress");
+            _webApiAddress = webApiAddress ?? throw new ArgumentNullException("webApiAddress");
 
-            _webApiAddress = webApiAddress;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
             _formatters = new MediaTypeFormatterCollection();
             _formatters.Clear();
@@ -74,7 +74,7 @@ namespace TTWebClient
         public TTTradeSession GetPublicTradeSession() { return ConvertToSync(() => GetPublicTradeSessionAsync().Result); }
         public Task<TTTradeSession> GetPublicTradeSessionAsync()
         {
-            return PublicHttpGetAsync<TTTradeSession>("api/v1/public/tradesession");
+            return PublicHttpGetAsync<TTTradeSession>("api/v2/public/tradesession");
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace TTWebClient
         public List<TTCurrency> GetPublicAllCurrencies() { return ConvertToSync(() => GetPublicAllCurrenciesAsync().Result); }
         public Task<List<TTCurrency>> GetPublicAllCurrenciesAsync()
         {
-            return PublicHttpGetAsync<List<TTCurrency>>("api/v1/public/currency");
+            return PublicHttpGetAsync<List<TTCurrency>>("api/v2/public/currency");
         }
 
         /// <summary>
@@ -95,7 +95,41 @@ namespace TTWebClient
         public List<TTCurrency> GetPublicCurrency(string filter) { return ConvertToSync(() => GetPublicCurrencyAsync(filter).Result); }
         public Task<List<TTCurrency>> GetPublicCurrencyAsync(string filter)
         {
-            return PublicHttpGetAsync<List<TTCurrency>>(string.Format("api/v1/public/currency/{0}", UrlEncode(filter)));
+            return PublicHttpGetAsync<List<TTCurrency>>(string.Format("api/v2/public/currency/{0}", UrlEncode(filter)));
+        }
+
+        public TTQuoteHistoryTicks GetTickHistory(string symbol, long timestamp, int count) { return ConvertToSync(() => GetTickHistoryAsync(symbol, timestamp, count).Result); }
+
+        public Task<TTQuoteHistoryTicks> GetTickHistoryAsync(string symbol, long timestamp, int count)
+        {
+            return PublicHttpGetAsync<TTQuoteHistoryTicks>($"api/v2/public/quotehistory/{symbol}/ticks?timestamp={timestamp}&count={count}");
+        }
+
+        public TTQuoteHistoryTicks GetLevel2History(string symbol, long timestamp, int count) { return ConvertToSync(() => GetLevel2HistoryAsync(symbol, timestamp, count).Result); }
+
+        public Task<TTQuoteHistoryTicks> GetLevel2HistoryAsync(string symbol, long timestamp, int count)
+        {
+            return PublicHttpGetAsync<TTQuoteHistoryTicks>($"api/v2/public/quotehistory/{symbol}/level2?timestamp={timestamp}&count={count}");
+        }
+
+        public TTQuoteHistoryTicks GetVWAPHistory(string symbol, long timestamp, int count, short deg) { return ConvertToSync(() => GetVWAPHistoryAsync(symbol, timestamp, count, deg).Result); }
+
+        public Task<TTQuoteHistoryTicks> GetVWAPHistoryAsync(string symbol, long timestamp, int count, short deg)
+        {
+            return PublicHttpGetAsync<TTQuoteHistoryTicks>($"api/v2/public/quotehistory/{symbol}/ticks/vwap/{deg}/?timestamp={timestamp}&count={count}");
+        }
+
+
+        public Task<TTQuoteHistoryTicks> GetQuoteHistoryAsync(string symbol, long timestamp, int count)
+        {
+            return PublicHttpGetAsync<TTQuoteHistoryTicks>($"api/v2/public/quotehistory/{symbol}/ticks?timestamp={timestamp}&count={count}");
+        }
+
+        public TTQuoteHistoryBars GetBarHistory(string symbol, string pereodicity, long timestamp, int count, string type) { return ConvertToSync(() => GetBarHistoryAsync(symbol, pereodicity, timestamp, count, type).Result); }
+
+        public Task<TTQuoteHistoryBars> GetBarHistoryAsync(string symbol, string pereodicity, long timestamp, int count, string type)
+        {
+            return PublicHttpGetAsync<TTQuoteHistoryBars>($"api/v2/public/quotehistory/{symbol}/{pereodicity}/bars/{type}?timestamp={timestamp}&count={count}");
         }
 
         /// <summary>
@@ -105,7 +139,7 @@ namespace TTWebClient
         public List<TTSymbol> GetPublicAllSymbols() { return ConvertToSync(() => GetPublicAllSymbolsAsync().Result); }
         public Task<List<TTSymbol>> GetPublicAllSymbolsAsync()
         {
-            return PublicHttpGetAsync<List<TTSymbol>>("api/v1/public/symbol");
+            return PublicHttpGetAsync<List<TTSymbol>>("api/v2/public/symbol");
         }
 
         /// <summary>
@@ -116,7 +150,7 @@ namespace TTWebClient
         public List<TTSymbol> GetPublicSymbol(string filter) { return ConvertToSync(() => GetPublicSymbolAsync(filter).Result); }
         public Task<List<TTSymbol>> GetPublicSymbolAsync(string filter)
         {
-            return PublicHttpGetAsync<List<TTSymbol>>(string.Format("api/v1/public/symbol/{0}", UrlEncode(filter)));
+            return PublicHttpGetAsync<List<TTSymbol>>(string.Format("api/v2/public/symbol/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -126,7 +160,7 @@ namespace TTWebClient
         public List<TTFeedTick> GetPublicAllTicks() { return ConvertToSync(() => GetPublicAllTicksAsync().Result); }
         public Task<List<TTFeedTick>> GetPublicAllTicksAsync()
         {
-            return PublicHttpGetAsync<List<TTFeedTick>>("api/v1/public/tick");
+            return PublicHttpGetAsync<List<TTFeedTick>>("api/v2/public/tick");
         }
 
         /// <summary>
@@ -137,7 +171,7 @@ namespace TTWebClient
         public List<TTFeedTick> GetPublicTick(string symbol) { return ConvertToSync(() => GetPublicTickAsync(symbol).Result); }
         public Task<List<TTFeedTick>> GetPublicTickAsync(string symbol)
         {
-            return PublicHttpGetAsync<List<TTFeedTick>>(string.Format("api/v1/public/tick/{0}", UrlEncode(symbol)));
+            return PublicHttpGetAsync<List<TTFeedTick>>(string.Format("api/v2/public/tick/{0}", UrlEncode(symbol)));
         }
 
         /// <summary>
@@ -147,7 +181,7 @@ namespace TTWebClient
         public List<TTFeedTickLevel2> GetPublicAllTicksLevel2() { return ConvertToSync(() => GetPublicAllTicksLevel2Async().Result); }
         public Task<List<TTFeedTickLevel2>> GetPublicAllTicksLevel2Async()
         {
-            return PublicHttpGetAsync<List<TTFeedTickLevel2>>("api/v1/public/level2");
+            return PublicHttpGetAsync<List<TTFeedTickLevel2>>("api/v2/public/level2");
         }
 
         /// <summary>
@@ -158,7 +192,7 @@ namespace TTWebClient
         public List<TTFeedTickLevel2> GetPublicTickLevel2(string filter) { return ConvertToSync(() => GetPublicTickLevel2Async(filter).Result); }
         public Task<List<TTFeedTickLevel2>> GetPublicTickLevel2Async(string filter)
         {
-            return PublicHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v1/public/level2/{0}", UrlEncode(filter)));
+            return PublicHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v2/public/level2/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -168,7 +202,7 @@ namespace TTWebClient
         public List<TTTicker> GetPublicAllTickers() { return ConvertToSync(() => GetPublicAllTickersAsync().Result); }
         public Task<List<TTTicker>> GetPublicAllTickersAsync()
         {
-            return PublicHttpGetAsync<List<TTTicker>>("api/v1/public/ticker");
+            return PublicHttpGetAsync<List<TTTicker>>("api/v2/public/ticker");
         }
 
         /// <summary>
@@ -179,7 +213,7 @@ namespace TTWebClient
         public List<TTTicker> GetPublicTicker(string filter) { return ConvertToSync(() => GetPublicTickerAsync(filter).Result); }
         public Task<List<TTTicker>> GetPublicTickerAsync(string filter)
         {
-            return PublicHttpGetAsync<List<TTTicker>>(string.Format("api/v1/public/ticker/{0}", UrlEncode(filter)));
+            return PublicHttpGetAsync<List<TTTicker>>(string.Format("api/v2/public/ticker/{0}", UrlEncode(filter)));
         }
 
         #endregion
@@ -193,7 +227,7 @@ namespace TTWebClient
         public TTAccount GetAccount() { return ConvertToSync(() => GetAccountAsync().Result); }
         public Task<TTAccount> GetAccountAsync()
         {
-            return PrivateHttpGetAsync<TTAccount>("api/v1/account");
+            return PrivateHttpGetAsync<TTAccount>("api/v2/account");
         }
 
         /// <summary>
@@ -203,7 +237,7 @@ namespace TTWebClient
         public TTTradeSession GetTradeSession() { return ConvertToSync(() => GetTradeSessionAsync().Result); }
         public Task<TTTradeSession> GetTradeSessionAsync()
         {
-            return PrivateHttpGetAsync<TTTradeSession>("api/v1/tradesession");
+            return PrivateHttpGetAsync<TTTradeSession>("api/v2/tradesession");
         }
 
         /// <summary>
@@ -213,7 +247,7 @@ namespace TTWebClient
         public List<TTCurrency> GetAllCurrencies() { return ConvertToSync(() => GetAllCurrenciesAsync().Result); }
         public Task<List<TTCurrency>> GetAllCurrenciesAsync()
         {
-            return PrivateHttpGetAsync<List<TTCurrency>>("api/v1/currency");
+            return PrivateHttpGetAsync<List<TTCurrency>>("api/v2/currency");
         }
 
         /// <summary>
@@ -224,7 +258,8 @@ namespace TTWebClient
         public List<TTCurrency> GetCurrency(string filter) { return ConvertToSync(() => GetCurrencyAsync(filter).Result); }
         public Task<List<TTCurrency>> GetCurrencyAsync(string filter)
         {
-            return PrivateHttpGetAsync<List<TTCurrency>>(string.Format("api/v1/currency/{0}", UrlEncode(filter)));
+            Console.WriteLine(string.Format("api/v2/currency/{0}", UrlEncode(filter)));
+            return PrivateHttpGetAsync<List<TTCurrency>>(string.Format("api/v2/currency/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -234,7 +269,7 @@ namespace TTWebClient
         public List<TTSymbol> GetAllSymbols() { return ConvertToSync(() => GetAllSymbolsAsync().Result); }
         public Task<List<TTSymbol>> GetAllSymbolsAsync()
         {
-            return PrivateHttpGetAsync<List<TTSymbol>>("api/v1/symbol");
+            return PrivateHttpGetAsync<List<TTSymbol>>("api/v2/symbol");
         }
 
         /// <summary>
@@ -245,7 +280,7 @@ namespace TTWebClient
         public List<TTSymbol> GetSymbol(string filter) { return ConvertToSync(() => GetSymbolAsync(filter).Result); }
         public Task<List<TTSymbol>> GetSymbolAsync(string filter)
         {
-            return PrivateHttpGetAsync<List<TTSymbol>>(string.Format("api/v1/symbol/{0}", UrlEncode(filter)));
+            return PrivateHttpGetAsync<List<TTSymbol>>(string.Format("api/v2/symbol/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -255,7 +290,7 @@ namespace TTWebClient
         public List<TTFeedTick> GetAllTicks() { return ConvertToSync(() => GetAllTicksAsync().Result); }
         public Task<List<TTFeedTick>> GetAllTicksAsync()
         {
-            return PrivateHttpGetAsync<List<TTFeedTick>>("api/v1/tick");
+            return PrivateHttpGetAsync<List<TTFeedTick>>("api/v2/tick");
         }
 
         /// <summary>
@@ -266,7 +301,7 @@ namespace TTWebClient
         public List<TTFeedTick> GetTick(string filter) { return ConvertToSync(() => GetTickAsync(filter).Result); }
         public Task<List<TTFeedTick>> GetTickAsync(string filter)
         {
-            return PrivateHttpGetAsync<List<TTFeedTick>>(string.Format("api/v1/tick/{0}", UrlEncode(filter)));
+            return PrivateHttpGetAsync<List<TTFeedTick>>(string.Format("api/v2/tick/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -276,7 +311,7 @@ namespace TTWebClient
         public List<TTFeedTickLevel2> GetAllTicksLevel2() { return ConvertToSync(() => GetAllTicksLevel2Async().Result); }
         public Task<List<TTFeedTickLevel2>> GetAllTicksLevel2Async()
         {
-            return PrivateHttpGetAsync<List<TTFeedTickLevel2>>("api/v1/level2");
+            return PrivateHttpGetAsync<List<TTFeedTickLevel2>>("api/v2/level2");
         }
 
         /// <summary>
@@ -287,7 +322,7 @@ namespace TTWebClient
         public List<TTFeedTickLevel2> GetTickLevel2(string filter) { return ConvertToSync(() => GetTickLevel2Async(filter).Result); }
         public Task<List<TTFeedTickLevel2>> GetTickLevel2Async(string filter)
         {
-            return PrivateHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v1/level2/{0}", UrlEncode(filter)));
+            return PrivateHttpGetAsync<List<TTFeedTickLevel2>>(string.Format("api/v2/level2/{0}", UrlEncode(filter)));
         }
 
         /// <summary>
@@ -300,7 +335,7 @@ namespace TTWebClient
         public List<TTAsset> GetAllAssets() { return ConvertToSync(() => GetAllAssetsAsync().Result); }
         public Task<List<TTAsset>> GetAllAssetsAsync()
         {
-            return PrivateHttpGetAsync<List<TTAsset>>("api/v1/asset");
+            return PrivateHttpGetAsync<List<TTAsset>>("api/v2/asset");
         }
 
         /// <summary>
@@ -314,7 +349,7 @@ namespace TTWebClient
         public TTAsset GetAsset(string currency) { return ConvertToSync(() => GetAssetAsync(currency).Result); }
         public Task<TTAsset> GetAssetAsync(string currency)
         {
-            return PrivateHttpGetAsync<TTAsset>(string.Format("api/v1/asset/{0}", UrlEncode(currency)));
+            return PrivateHttpGetAsync<TTAsset>(string.Format("api/v2/asset/{0}", UrlEncode(currency)));
         }
 
         /// <summary>
@@ -327,7 +362,7 @@ namespace TTWebClient
         public List<TTPosition> GetAllPositions() { return ConvertToSync(() => GetAllPositionsAsync().Result); }
         public Task<List<TTPosition>> GetAllPositionsAsync()
         {
-            return PrivateHttpGetAsync<List<TTPosition>>("api/v1/position");
+            return PrivateHttpGetAsync<List<TTPosition>>("api/v2/position");
         }
 
         /// <summary>
@@ -341,7 +376,7 @@ namespace TTWebClient
         public TTPosition GetPosition(string id) { return ConvertToSync(() => GetPositionAsync(id).Result); }
         public Task<TTPosition> GetPositionAsync(string id)
         {
-            return PrivateHttpGetAsync<TTPosition>(string.Format("api/v1/position/{0}", UrlEncode(id)));
+            return PrivateHttpGetAsync<TTPosition>(string.Format("api/v2/position/{0}", UrlEncode(id)));
         }
 
         /// <summary>
@@ -351,7 +386,7 @@ namespace TTWebClient
         public List<TTTrade> GetAllTrades() { return ConvertToSync(() => GetAllTradesAsync().Result); }
         public Task<List<TTTrade>> GetAllTradesAsync()
         {
-            return PrivateHttpGetAsync<List<TTTrade>>("api/v1/trade");
+            return PrivateHttpGetAsync<List<TTTrade>>("api/v2/trade");
         }
 
         /// <summary>
@@ -362,7 +397,7 @@ namespace TTWebClient
         public TTTrade GetTrade(long tradeId) { return ConvertToSync(() => GetTradeAsync(tradeId).Result); }
         public Task<TTTrade> GetTradeAsync(long tradeId)
         {
-            return PrivateHttpGetAsync<TTTrade>(string.Format("api/v1/trade/{0}", tradeId));
+            return PrivateHttpGetAsync<TTTrade>(string.Format("api/v2/trade/{0}", tradeId));
         }
 
         /// <summary>
@@ -387,7 +422,7 @@ namespace TTWebClient
         public TTTrade CreateTrade(TTTradeCreate request) { return ConvertToSync(() => CreateTradeAsync(request).Result); }
         public Task<TTTrade> CreateTradeAsync(TTTradeCreate request)
         {
-            return PrivateHttpPostAsync<TTTrade, TTTradeCreate>("api/v1/trade", request);
+            return PrivateHttpPostAsync<TTTrade, TTTradeCreate>("api/v2/trade", request);
         }
 
         /// <summary>
@@ -407,7 +442,7 @@ namespace TTWebClient
         public TTTrade ModifyTrade(TTTradeModify request) { return ConvertToSync(() => ModifyTradeAsync(request).Result); }
         public Task<TTTrade> ModifyTradeAsync(TTTradeModify request)
         {
-            return PrivateHttpPutAsync<TTTrade, TTTradeModify>("api/v1/trade", request);
+            return PrivateHttpPutAsync<TTTrade, TTTradeModify>("api/v2/trade", request);
         }
 
         /// <summary>
@@ -417,7 +452,7 @@ namespace TTWebClient
         public TTTradeDelete CancelTrade(long tradeId) { return ConvertToSync(() => CancelTradeAsync(tradeId).Result); }
         public Task<TTTradeDelete> CancelTradeAsync(long tradeId)
         {
-            return PrivateHttpDeleteAsync<TTTradeDelete>(string.Format("api/v1/trade?type=Cancel&id={0}", tradeId));
+            return PrivateHttpDeleteAsync<TTTradeDelete>(string.Format("api/v2/trade?type=Cancel&id={0}", tradeId));
         }
 
         /// <summary>
@@ -428,7 +463,7 @@ namespace TTWebClient
         public TTTradeDelete CloseTrade(long tradeId, decimal? amount) { return ConvertToSync(() => CloseTradeAsync(tradeId, amount).Result); }
         public Task<TTTradeDelete> CloseTradeAsync(long tradeId, decimal? amount)
         {
-            return PrivateHttpDeleteAsync<TTTradeDelete>(amount.HasValue ? string.Format("api/v1/trade?type=Close&id={0}&amount={1}", tradeId, amount.Value) : string.Format("api/v1/trade?type=Close&id={0}", tradeId));
+            return PrivateHttpDeleteAsync<TTTradeDelete>(amount.HasValue ? string.Format("api/v2/trade?type=Close&id={0}&amount={1}", tradeId, amount.Value) : string.Format("api/v2/trade?type=Close&id={0}", tradeId));
         }
 
         /// <summary>
@@ -439,7 +474,7 @@ namespace TTWebClient
         public TTTradeDelete CloseByTrade(long tradeId, long byTradeId) { return ConvertToSync(() => CloseByTradeAsync(tradeId, byTradeId).Result); }
         public Task<TTTradeDelete> CloseByTradeAsync(long tradeId, long byTradeId)
         {
-            return PrivateHttpDeleteAsync<TTTradeDelete>(string.Format("api/v1/trade?type=CloseBy&id={0}&byid={1}", tradeId, byTradeId));
+            return PrivateHttpDeleteAsync<TTTradeDelete>(string.Format("api/v2/trade?type=CloseBy&id={0}&byid={1}", tradeId, byTradeId));
         }
 
         /// <summary>
@@ -469,7 +504,7 @@ namespace TTWebClient
         public TTTradeHistoryReport GetTradeHistory(TTTradeHistoryRequest request) { return ConvertToSync(() => GetTradeHistoryAsync(request).Result); }
         public Task<TTTradeHistoryReport> GetTradeHistoryAsync(TTTradeHistoryRequest request)
         {
-            return PrivateHttpPostAsync<TTTradeHistoryReport, TTTradeHistoryRequest>("api/v1/tradehistory", request);
+            return PrivateHttpPostAsync<TTTradeHistoryReport, TTTradeHistoryRequest>("api/v2/tradehistory", request);
         }
 
         /// <summary>
@@ -497,7 +532,7 @@ namespace TTWebClient
         public TTDailySnapshotReport GetDailySnapshots(TTDailySnapshotRequest request) { return ConvertToSync(() => GetDailySnapshotsAsync(request).Result); }
         public Task<TTDailySnapshotReport> GetDailySnapshotsAsync(TTDailySnapshotRequest request)
         {
-            return PrivateHttpPostAsync<TTDailySnapshotReport, TTDailySnapshotRequest>("api/v1/dailysnapshots", request);
+            return PrivateHttpPostAsync<TTDailySnapshotReport, TTDailySnapshotRequest>("api/v2/dailysnapshots", request);
         }
 
         #endregion
@@ -518,7 +553,7 @@ namespace TTWebClient
 
         private static string UrlEncode(string value)
         {
-            return WebUtility.UrlEncode(WebUtility.UrlEncode(value));
+            return HttpUtility.UrlPathEncode(value);
         }
 
         private HttpClient CreatePublicHttpClient()
@@ -532,20 +567,29 @@ namespace TTWebClient
 
         private HttpClient CreatePrivateHttpClient()
         {
-            var client = new HttpClient(new RequestContentHMACHandler(_webApiId, _webApiKey, _webApiSecret));
-            client.BaseAddress = new Uri(_webApiAddress);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            return client;
+            try
+            {
+                var client = new HttpClient(new RequestContentHMACHandler(_webApiId, _webApiKey, _webApiSecret));
+                client.BaseAddress = new Uri(_webApiAddress);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                return client;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         private Task<TResult> PublicHttpGetAsync<TResult>(string method)
         {
+            Console.WriteLine(method);
             return HttpGetAsync<TResult>(CreatePublicHttpClient, method);
         }
 
         private Task<TResult> PrivateHttpGetAsync<TResult>(string method)
         {
+            Console.WriteLine(method);
             return HttpGetAsync<TResult>(CreatePrivateHttpClient, method);
         }
 
@@ -554,9 +598,9 @@ namespace TTWebClient
             using (var client = clientFactory())
             using (HttpResponseMessage response = await client.GetAsync(method))
             {
+                Console.WriteLine(response);
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException(await response.Content.ReadAsStringAsync());
-
                 return await response.Content.ReadAsAsync<TResult>(_formatters);
             }
         }

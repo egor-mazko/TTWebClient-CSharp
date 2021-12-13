@@ -10,7 +10,8 @@ namespace TTWebClient.Domain
         Market = 0,
         Limit = 1,
         Stop = 2,
-        Position = 3
+        Position = 3,
+        StopLimit = 4,
     }
 
     /// <summary>
@@ -33,9 +34,20 @@ namespace TTWebClient.Domain
         Canceled = 4,
         Rejected = 5,
         Expired = 6,
+        PartiallyFilled = 7,
+        Activated = 8,
+        Executing = 9,
         Invalid = 99
-    }    
-    
+    }
+
+    public enum TTContingentOrderTriggerTypes
+    {
+        None,
+        OnPendingOrderExpired,
+        OnPendingOrderPartiallyFilled,
+        OnTime
+    }
+
     /// <summary>
     /// Trade information
     /// </summary>
@@ -65,8 +77,14 @@ namespace TTWebClient.Domain
         /// <summary>Symbol</summary>
         public string Symbol { get; set; }
 
+        /// <summary>Symbol Precision</summary>
+        public int? SymbolPrecision { get; set; }
+
         /// <summary>Price</summary>
         public decimal Price { get; set; }
+
+        /// <summary>Stop price</summary>
+        public decimal? StopPrice { get; set; }
 
         /// <summary>Amount</summary>
         public decimal Amount { get; set; }
@@ -83,6 +101,9 @@ namespace TTWebClient.Domain
         /// <summary>Margin</summary>
         public decimal? Margin { get; set; }
 
+        /// <summary>Profit</summary>
+        public decimal? Profit { get; set; }
+
         /// <summary>Commission</summary>
         public decimal? Commission { get; set; }
 
@@ -91,6 +112,12 @@ namespace TTWebClient.Domain
 
         /// <summary>Swap</summary>
         public decimal? Swap { get; set; }
+
+        /// <summary>Immediate-Or-Cancel flag</summary>
+        public bool ImmediateOrCancel { get; set; }
+
+        /// <summary>One Cancels The Other flag</summary>
+        public bool OneCancelsTheOther { get; set; }
 
         /// <summary>Created timestamp</summary>
         public DateTime Created { get; set; }
@@ -109,5 +136,29 @@ namespace TTWebClient.Domain
 
         /// <summary>Comment</summary>
         public string Comment { get; set; }
+
+        /// <summary>Client application (optional)</summary>
+        public string ClientApp { get; set; }
+
+        /// <summary>Slippage (optional)</summary>
+        public decimal? Slippage { get; set; }
+
+        /// <summary>Commission</summary>
+        public decimal? Rebate { get; set; }
+
+        /// <summary>Related Trade Id (may concerns to option OneCancelsTheOther)</summary>
+        public long? RelatedTradeId { get; set; }
+
+        /// <summary>Contingent order flag</summary>
+        public bool ContingentOrder { get; set; }
+
+        /// <summary>Trigger Type</summary>
+        public TTContingentOrderTriggerTypes? TriggerType { get; set; }
+
+        /// <summary>Trigger Time</summary>
+        public DateTime? TriggerTime { get; set; }
+
+        /// <summary>Commission</summary>
+        public long? OrderIdTriggeredBy { get; set; }
     }
 }
