@@ -143,6 +143,7 @@ namespace TTWebClientUI
         public Command GetPositionsCommand { get; set; }
         public Command GetTradesCommand { get; set; }
         public Command PostTradeCommand { get; set; }
+        public Command CloseTradeCommand { get; set; }
         public Command GetTradeHistoryCommand { get; set; }
 
         public bool IsPublicEnabled
@@ -538,6 +539,7 @@ namespace TTWebClientUI
             GetPositionsCommand = new Command(async () => await GetPositions());
             GetTradesCommand = new Command(async () => await GetTrades());
             PostTradeCommand = new Command(async () => await PostTrade());
+            CloseTradeCommand = new Command(async () => await CloseTrade());
             GetTradeHistoryCommand = new Command(async () => await GetTradeHistory());
 
             if (creds.IsPublicOnly)
@@ -867,6 +869,27 @@ namespace TTWebClientUI
                     TTTradeCreate tradeCreate = new TTTradeCreate();
                     TTTrade trade = await _client.CreateTradeAsync(tradeCreate);
                     trades = new List<TTTrade>(new[] { trade });
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            Trades = trades != null ? new ObservableCollection<TTTrade>(trades) : null;
+        }
+
+        public async Task CloseTrade()
+        {
+            // Account trades
+            List<TTTrade> trades = null;
+            if (!long.TryParse(TradeId, out var tradeId))
+                return;
+            else
+            {
+                try
+                {
+                    var trade = await _client.CloseTradeAsync(tradeId, null);
+                    trades = new List<TTTrade>(new[] { trade.Trade });
                 }
                 catch (Exception)
                 {

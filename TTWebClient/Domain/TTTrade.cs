@@ -158,7 +158,10 @@ namespace TTWebClient.Domain
         /// <summary>Trigger Time</summary>
         public DateTime? TriggerTime { get; set; }
 
-        /// <summary>Commission</summary>
+        /// <summary>Order Id Triggered By</summary>
         public long? OrderIdTriggeredBy { get; set; }
+
+        /// <summary>Close Price</summary>
+        public decimal? ClosePrice { get; set; }
     }
 }

@@ -576,10 +576,15 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Button Content="GET" Command="{Binding Path=ClientView.GetTradesCommand}"/>
-                                    <Label Content="Trade Id:"/>
-                                    <TextBox Text="{Binding Path=ClientView.TradeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <StackPanel Grid.Row="0" Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="GET" Command="{Binding Path=ClientView.GetTradesCommand}"/>
+                                        <Label Content="Trade Id:"/>
+                                        <TextBox Text="{Binding Path=ClientView.TradeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="DELETE" Command="{Binding Path=ClientView.CloseTradeCommand}"/>
+                                    </StackPanel>
                                 </StackPanel>
                                 <ListView Grid.Row="1" ItemsSource="{Binding Path=ClientView.Trades}">
                                     <ListView.View>
@@ -619,6 +624,7 @@
                                                 <GridViewColumn Header="TriggerTime" DisplayMemberBinding="{Binding Path=TriggerTime}"/>
                                                 <GridViewColumn Header="TradeIdTriggeredBy" DisplayMemberBinding="{Binding Path=OrderIdTriggeredBy}"/>
                                                 <GridViewColumn Header="Comment" DisplayMemberBinding="{Binding Path=Comment}"/>
+                                                <GridViewColumn Header="ClosePrice" DisplayMemberBinding="{Binding Path=ClosePrice}"/>
                                             </GridView.Columns>
                                         </GridView>
                                     </ListView.View>
